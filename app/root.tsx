@@ -9,9 +9,13 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 
-import styles from "./tailwind.css";
+import globalStyles from "../public/css/global.css";
+import tailwindStyles from "../public/css/tailwind.css";
 
-export const links: LinksFunction = () => [{ rel: "stylesheet", href: styles }];
+export const links: LinksFunction = () => [
+  { rel: "stylesheet", href: tailwindStyles },
+  { rel: "stylesheet", href: globalStyles },
+];
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",

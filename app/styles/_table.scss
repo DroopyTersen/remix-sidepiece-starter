@@ -1,0 +1,17 @@
+table.table thead th:first-child {
+  border-radius: 0;
+}
+
+table.table thead th {
+  opacity: 0.8;
+}
+
+table.table thead th.sortable:hover,
+table.table thead th.sorted {
+  opacity: 1;
+}
+
+table.table.vertical-align-top th,
+table.table.vertical-align-top td {
+  vertical-align: top;
+}

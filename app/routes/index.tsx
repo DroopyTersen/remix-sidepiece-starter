@@ -1,7 +1,7 @@
 export default function Index() {
   return (
     <div>
-      <h1 className="text-gray-200">Welcome to Remix</h1>
+      <h1 className="text-secondary/90">Welcome to Remix</h1>
       <ul>
         <li>
           <a
@@ -34,19 +34,19 @@ export default function Index() {
               <span className="label-text">First Name</span>
               <input
                 type="text"
-                className="input w-full input-accent border-none bg-neutral/70"
+                className="input w-full input-accent border-none bg-base-200/80"
               />
             </label>
             <label className="flex flex-col gap-1">
               <span className="label-text">Last Name</span>
               <input
                 type="text"
-                className="input w-full input-accent border-none bg-neutral/70"
+                className="input w-full input-accent border-none bg-base-200/80"
               />
             </label>
             <label className="flex flex-col gap-1">
               <span className="label-text">Job</span>
-              <select className="select select-accent border-none bg-neutral/70 w-full">
+              <select className="select select-accent border-none bg-base-200/80 w-full">
                 <option></option>
                 <option>Developer</option>
                 <option>Designer</option>
@@ -56,11 +56,11 @@ export default function Index() {
 
             <label className="flex flex-col gap-1">
               <span className="label-text">Bio</span>
-              <textarea className="textarea w-full max-w-xs textarea-accent border-none bg-neutral/70"></textarea>
+              <textarea className="textarea w-full max-w-xs textarea-accent border-none bg-base-200/80"></textarea>
             </label>
 
             <div className="flex gap-2 justify-end">
-              <button className="btn">Cancel</button>
+              <button className="btn btn-ghost">Cancel</button>
               <button className="btn btn-primary" type="submit">
                 Save
               </button>

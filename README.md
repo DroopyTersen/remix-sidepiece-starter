@@ -46,12 +46,11 @@ npx create-remix@latest --template droopytersen/remix-sidepiece-starter
   - [x] Make Typescript it less strict
   - [x] Disable eslint
   - [x] Setup prettier and autoformatting
-- [ ] CSS/Styling Setup
-  - [ ] Tailwind CSS
-    - [ ] Tailwind Forms
-    - [ ] Tailwind Typography
-    - [ ] DaisyUI
-  - [ ] Sass Setup for custom CSS
+- [x] CSS/Styling Setup
+  - [x] Tailwind CSS
+    - [x] Tailwind Typography
+    - [x] DaisyUI
+  - [x] Sass Setup for custom CSS
 - [ ] Environment Variable Pattern
 - [ ] Toolkit Code
   - [ ] Remix Utils
