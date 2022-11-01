@@ -21,12 +21,12 @@ export const meta: MetaFunction = () => ({
 
 export default function App() {
   return (
-    <html lang="en">
+    <html lang="en" data-theme="droopy-theme">
       <head>
         <Meta />
         <Links />
       </head>
-      <body>
+      <body className="prose prose-sm">
         <Outlet />
         <ScrollRestoration />
         <Scripts />
