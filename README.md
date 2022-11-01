@@ -24,18 +24,12 @@ npx create-remix@latest --template droopytersen/remix-sidepiece-starter
   - dayjs
   - zod
 
-## Using the Starter
+## Envrionment Variables
 
-To create a new project using this stack, run the following command.
-
-- When prompted, **make sure to select `Y` to run the `npm install`**.
-  - If you don't, our postinstall scripts won't run for you.
-- You will be prompted to choose between Javascript or Typescript. **Pick Typescript**.
-
-```sh
-# When prompted, make sure to select `Y` to run the 'npm install`.
-npx create-remix@latest --template droopytersen/remix-sidepiece-starter
-```
+- Locally assumes you have a `.env` file setup
+- On the server you can access them with `getEnvVar(key)`
+- Anything prefixed with `PUBLIC_` will be available on the client with `useEnvVars()` or `useEnvVar(key)`
+- Also uses `zod` schemas to validate you environment variables so the app crashes right away with a helpful error message.
 
 ## Starter TODOs
 
@@ -51,7 +45,7 @@ npx create-remix@latest --template droopytersen/remix-sidepiece-starter
     - [x] Tailwind Typography
     - [x] DaisyUI
   - [x] Sass Setup for custom CSS
-- [ ] Environment Variable Pattern
+- [x] Environment Variable Pattern
 - [ ] Toolkit Code
   - [ ] Remix Utils
     - `useRouteData`

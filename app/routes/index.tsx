@@ -1,7 +1,11 @@
+import { useEnvVars } from "~/toolkit/remix/useEnvVar";
+
 export default function Index() {
+  let config = useEnvVars();
   return (
     <div>
-      <h1 className="text-secondary/90">Welcome to Remix</h1>
+      <h1 className="text-secondary/90">{config?.PUBLIC_MESSAGE}</h1>
+      <p>You are on the {config.PUBLIC_ENV} environment</p>
       <ul>
         <li>
           <a

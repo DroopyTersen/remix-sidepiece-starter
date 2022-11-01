@@ -1,4 +1,4 @@
-import type { LinksFunction, MetaFunction } from "@remix-run/node";
+import { json, LinksFunction, MetaFunction } from "@remix-run/node";
 
 import {
   Links,
@@ -11,6 +11,7 @@ import {
 
 import globalStyles from "../public/css/global.css";
 import tailwindStyles from "../public/css/tailwind.css";
+import { getEnvVar, getPublicEnvVars } from "./toolkit/remix/envVars.server";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: tailwindStyles },
@@ -22,6 +23,15 @@ export const meta: MetaFunction = () => ({
   title: "New Remix App",
   viewport: "width=device-width,initial-scale=1",
 });
+
+export const loader = ({}) => {
+  let superSecret = getEnvVar("PRIVATE_SECRET");
+  console.log("🚀 | loader | superSecret", superSecret);
+
+  return json({
+    ENV: getPublicEnvVars(),
+  });
+};
 
 export default function App() {
   return (
