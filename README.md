@@ -39,7 +39,7 @@ npx create-remix@latest --template droopytersen/remix-sidepiece-starter
 
 ## Starter TODOs
 
-- [ ] Setup to be a "remix stack" template
+- [x] Setup to be a "remix stack" template
   - \* the Remix versions
   - Setup `/remix.init`
 - [ ] Lax Code Style
