@@ -6,7 +6,11 @@ const sort = require("sort-package-json");
 
 let createFilePaths = (rootDirectory) => {
   const filePaths = {
-    README_TEMPLATE: path.join(rootDirectory, "remix.init", "README.template.md"),
+    README_TEMPLATE: path.join(
+      rootDirectory,
+      "remix.init",
+      "README.template.md"
+    ),
     README_DESTINATION: path.join(rootDirectory, "README.md"),
     ENV_EXAMPLE: path.join(rootDirectory, ".env.example"),
     ENV_DESTINATION: path.join(rootDirectory, ".env"),
@@ -37,10 +41,17 @@ async function main({ rootDirectory }) {
     fs.readFile(filePaths.PACKAGE_JSON, "utf-8"),
   ]);
 
-  const newReadme = readme.replace(new RegExp(escapeRegExp(APP_NAME_REPLACER), "g"), APP_NAME);
+  const newReadme = readme.replace(
+    new RegExp(escapeRegExp(APP_NAME_REPLACER), "g"),
+    APP_NAME
+  );
 
   const newPackageJson =
-    JSON.stringify(sort({ ...JSON.parse(packageJson), name: APP_NAME }), null, 2) + "\n";
+    JSON.stringify(
+      sort({ ...JSON.parse(packageJson), name: APP_NAME }),
+      null,
+      2
+    ) + "\n";
 
   await Promise.all([
     fs.writeFile(filePaths.README_DESTINATION, newReadme),

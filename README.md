@@ -42,10 +42,10 @@ npx create-remix@latest --template droopytersen/remix-sidepiece-starter
 - [x] Setup to be a "remix stack" template
   - \* the Remix versions
   - Setup `/remix.init`
-- [ ] Lax Code Style
-  - [ ] Make Typescript it less strict
-  - [ ] Disable eslint
-  - [ ] Setup prettier and autoformatting
+- [x] Lax Code Style
+  - [x] Make Typescript it less strict
+  - [x] Disable eslint
+  - [x] Setup prettier and autoformatting
 - [ ] CSS/Styling Setup
   - [ ] Tailwind CSS
     - [ ] Tailwind Forms
