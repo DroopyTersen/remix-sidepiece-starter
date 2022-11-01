@@ -5,6 +5,7 @@ node_modules
 /public/build
 .env
 
+/app/tailwind.css
 /app/global.css
 /app/global.css.map
 
