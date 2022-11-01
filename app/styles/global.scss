@@ -1,0 +1,15 @@
+@import "./theme";
+
+html .prose {
+  a {
+    color: lighten($primary, 25%);
+    transition: color 0.15s ease-out;
+    text-decoration: none;
+
+    &:hover {
+      color: lighten($primary, 10%);
+      text-decoration: underline;
+
+    }
+  }
+}
