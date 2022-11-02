@@ -1,77 +1,89 @@
+import { Link } from "@remix-run/react";
+import { AppLayout } from "~/features/layout/AppLayout";
+import {
+  InputField,
+  SelectField,
+  TextAreaField,
+} from "~/toolkit/components/forms";
+import { DeleteButton } from "~/toolkit/components/modal/DeleteButton";
 import { useEnvVars } from "~/toolkit/remix/useEnvVar";
 
 export default function Index() {
   let config = useEnvVars();
   return (
-    <div>
-      <h1 className="text-secondary/90">{config?.PUBLIC_MESSAGE}</h1>
-      <p>You are on the {config.PUBLIC_ENV} environment</p>
-      <ul>
-        <li>
-          <a
-            target="_blank"
-            href="https://remix.run/tutorials/blog"
-            rel="noreferrer"
-          >
-            15m Quickstart Blog Tutorial
-          </a>
-        </li>
-        <li>
-          <a
-            target="_blank"
-            href="https://remix.run/tutorials/jokes"
-            rel="noreferrer"
-          >
-            Deep Dive Jokes App Tutorial
-          </a>
-        </li>
-        <li>
-          <a target="_blank" href="https://remix.run/docs" rel="noreferrer">
-            Remix Docs
-          </a>
-        </li>
-      </ul>
-      <div>
-        <form className="max-w-xs">
-          <fieldset className="flex gap-4 flex-col">
-            <label className="flex flex-col gap-1">
-              <span className="label-text">First Name</span>
-              <input
-                type="text"
-                className="input w-full input-accent border-none bg-base-200/80"
-              />
-            </label>
-            <label className="flex flex-col gap-1">
-              <span className="label-text">Last Name</span>
-              <input
-                type="text"
-                className="input w-full input-accent border-none bg-base-200/80"
-              />
-            </label>
-            <label className="flex flex-col gap-1">
-              <span className="label-text">Job</span>
-              <select className="select select-accent border-none bg-base-200/80 w-full">
+    <AppLayout>
+      <div className="p-8">
+        <h1 className="text-secondary/90">{config?.PUBLIC_MESSAGE}</h1>
+        <p>You are on the {config.PUBLIC_ENV} environment</p>
+        <ul>
+          <li>
+            <a
+              target="_blank"
+              href="https://remix.run/tutorials/blog"
+              rel="noreferrer"
+            >
+              15m Quickstart Blog Tutorial
+            </a>
+          </li>
+          <li>
+            <a
+              target="_blank"
+              href="https://remix.run/tutorials/jokes"
+              rel="noreferrer"
+            >
+              Deep Dive Jokes App Tutorial
+            </a>
+          </li>
+          <li>
+            <a target="_blank" href="https://remix.run/docs" rel="noreferrer">
+              Remix Docs
+            </a>
+          </li>
+        </ul>
+        <div>
+          <form className="max-w-xs">
+            <fieldset className="flex gap-4 flex-col">
+              <InputField label="First Name" name="firstName" required />
+              <InputField label="Last Name" name="lastName" required />
+              <SelectField
+                label="Job"
+                name="job"
+                hint="Choose the closest match"
+              >
                 <option></option>
                 <option>Developer</option>
                 <option>Designer</option>
                 <option>Product Manager</option>
-              </select>
-            </label>
+              </SelectField>
 
-            <label className="flex flex-col gap-1">
-              <span className="label-text">Bio</span>
-              <textarea className="textarea w-full max-w-xs textarea-accent border-none bg-base-200/80"></textarea>
-            </label>
+              <TextAreaField label="Bio" name="bio" altLabel="0 of 240 chars" />
 
-            <div className="flex gap-2 justify-end">
-              <button className="btn btn-ghost">Cancel</button>
-              <button className="btn btn-primary" type="submit">
-                Save
-              </button>
-            </div>
-          </fieldset>
-        </form>
+              <div className="flex gap-2 justify-end">
+                <Link to="/" className="btn btn-ghost">
+                  Cancel
+                </Link>
+                <button className="btn btn-primary" type="submit">
+                  Save
+                </button>
+              </div>
+            </fieldset>
+          </form>
+        </div>
+        <DeleteButton
+          className="btn-sm lg:btn-md"
+          // action={appRoutes.teams.dotDetails(teamId, dot?.id)}
+          confirmation={{
+            title: "Delete Dot?",
+            body: <div>Are you sure you want to delete this thing?</div>,
+          }}
+          formData={{
+            intent: "delete",
+            item_id: "123",
+          }}
+        >
+          Remove thing
+        </DeleteButton>
       </div>
-    </div>
+    </AppLayout>
   );
 }

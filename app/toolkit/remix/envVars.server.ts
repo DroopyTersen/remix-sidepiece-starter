@@ -9,7 +9,7 @@ export const getEnvVar = (key: keyof EnvVars, fallback = "") => {
 };
 
 export const PrivateEnvVarSchema = z.object({
-  PRIVATE_SECRET: z.string(),
+  SESSION_SECRET: z.string().optional(),
 });
 export const EnvVarSchema = PrivateEnvVarSchema.extend(
   PublicEnvVarSchema.shape

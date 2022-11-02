@@ -46,14 +46,12 @@ npx create-remix@latest --template droopytersen/remix-sidepiece-starter
     - [x] DaisyUI
   - [x] Sass Setup for custom CSS
 - [x] Environment Variable Pattern
-- [ ] Toolkit Code
-  - [ ] Remix Utils
+- [x] Toolkit Code
+  - [x] Remix Utils
     - `useRouteData`
     - `authUtils`
-  - [ ] React Components
-  - [ ] Common React Hooks
-- [ ] Layout
-  - [ ] Responsive Menu
+  - [x] React Components
+  - [x] Common React Hooks
 - [ ] Hasura
   - [ ] Hasura Docker Compose
   - [ ] Hasura folder basic migration
@@ -69,3 +67,5 @@ npx create-remix@latest --template droopytersen/remix-sidepiece-starter
 - [ ] Form Example
   - [ ] User Profile Form
   - [ ] Validation error pattern (with Zod)
+- [ ] Ensure infrastructure
+  - [ ] Railway deploy
