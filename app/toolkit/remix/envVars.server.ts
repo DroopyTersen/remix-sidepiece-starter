@@ -10,6 +10,8 @@ export const getEnvVar = (key: keyof EnvVars, fallback = "") => {
 
 export const PrivateEnvVarSchema = z.object({
   GRAPHQL_ENDPOINT: z.string(),
+  HASURA_ADMIN_SECRET: z.string(),
+  HASURA_JWT_SECRET: z.string(),
   SESSION_SECRET: z.string().optional(),
 });
 export const EnvVarSchema = PrivateEnvVarSchema.extend(

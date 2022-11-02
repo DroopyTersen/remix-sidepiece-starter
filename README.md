@@ -24,13 +24,6 @@ npx create-remix@latest --template droopytersen/remix-sidepiece-starter
   - dayjs
   - zod
 
-## Envrionment Variables
-
-- Locally assumes you have a `.env` file setup
-- On the server you can access them with `getEnvVar(key)`
-- Anything prefixed with `PUBLIC_` will be available on the client with `useEnvVars()` or `useEnvVar(key)`
-- Also uses `zod` schemas to validate you environment variables so the app crashes right away with a helpful error message.
-
 ## Starter TODOs
 
 - [x] Setup to be a "remix stack" template
@@ -52,20 +45,22 @@ npx create-remix@latest --template droopytersen/remix-sidepiece-starter
     - `authUtils`
   - [x] React Components
   - [x] Common React Hooks
-- [ ] Hasura
-  - [ ] Hasura Docker Compose
-  - [ ] Hasura folder basic migration
-  - [ ] Hasura Dockerfile for infrastucture
-- [ ] GraphQL Setup
-  - [ ] Intellisense in `.gql` files
-  - [ ] Type safety with `TypedDocumentNode`
+- [x] GraphQL Setup
+  - [x] Intellisense in `.gql` files
+  - [x] Type safety with `TypedDocumentNode`
     - `graphql-codegen`, `graphql-request`
+- [x] Hasura
+  - [x] Hasura Docker Compose
+  - [x] Hasura folder basic migration
+  - [x] Hasura GQL Client factories
 - [ ] Auth Setup
   - [ ] Github OAuth Flow
+  - [ ] Document App Setup instructions
   - [ ] Generate Hasura token
-  - [ ] Admin vs User GQL Requests
 - [ ] Form Example
   - [ ] User Profile Form
   - [ ] Validation error pattern (with Zod)
 - [ ] Ensure infrastructure
+  - [ ] Hasura Dockerfile
+  - [ ] Remix Dockerfile
   - [ ] Railway deploy

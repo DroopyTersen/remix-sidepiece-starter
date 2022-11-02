@@ -1,5 +1,11 @@
 # {remix-stack-app-name}
 
+## Prereqs
+
+```
+npm install -g hasura-cli
+```
+
 ## Running Locally
 
 Make sure docker is running with:
@@ -19,6 +25,13 @@ To start creating tables, open Hasura console with:
 ```
 yarn hasura
 ```
+
+## Environment Variables
+
+- Locally assumes you have a `.env` file setup
+- On the server you can access them with `getEnvVar(key)`
+- Anything prefixed with `PUBLIC_` will be available on the client with `useEnvVars()` or `useEnvVar(key)`
+- Also uses `zod` schemas to validate you environment variables so the app crashes right away with a helpful error message.
 
 ## Hasura Migrations
 

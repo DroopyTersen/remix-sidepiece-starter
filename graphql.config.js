@@ -1,4 +1,12 @@
+require("dotenv").config();
+
 module.exports = {
-  schema: 'https://techstacker.hasura.app/v1/graphql',
+  schema: [{
+    [process.env.GRAPHQL_ENDPOINT]: {
+      headers: {
+        "x-hasura-admin-secret": process.env.HASURA_ADMIN_SECRET
+      }
+    }
+  }],
   documents: "app/**/*.{graphql,gql,js,ts,jsx,tsx}",
 };

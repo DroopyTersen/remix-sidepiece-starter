@@ -1,8 +1,8 @@
 import type { CodegenConfig } from "@graphql-codegen/cli";
+import gqlConfig from "../../graphql.config";
 
 const config: CodegenConfig = {
-  schema: "https://techstacker.hasura.app/v1/graphql",
-  documents: "./app/**/*.{graphql,gql}",
+  ...gqlConfig,
   generates: {
     "./app/.gql/graphql.types.ts": {
       plugins: ["typescript", "typescript-operations", "typed-document-node"],
