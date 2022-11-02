@@ -14,5 +14,27 @@
       "}"
     ],
     "description": "Basic React component"
+  },
+  "Remix route module (unauthenticated)": {
+    "prefix": "route",
+    "body": [
+      "import { json, LoaderArgs } from \"@remix-run/node\";",
+      "import { useLoaderData } from \"@remix-run/react\";",
+      "import { AppErrorBoundary } from \"~/toolkit/components/errors/AppErrorBoundary\";",
+      "",
+      "export const loader = async ({ request, params }: LoaderArgs) => {",
+      "  return json({ message: \"${1:NAME}\" });",
+      "};",
+      "",
+      "export default function ${1:NAME}Route() {",
+      "  let data = useLoaderData<typeof loader>();",
+      "  return <div>{data.message}</div>;",
+      "}",
+      "",
+      "export const ErrorBoundary = AppErrorBoundary;",
+      "export const CatchBoundary = AppErrorBoundary;",
+      ""
+    ],
+    "description": "Remix route module (unauthenticated)"
   }
 }
