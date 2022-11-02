@@ -52,8 +52,6 @@ npx create-remix@latest --template droopytersen/remix-sidepiece-starter
     - `authUtils`
   - [x] React Components
   - [x] Common React Hooks
-- [ ] Layout
-  - [ ] Responsive Menu
 - [ ] Hasura
   - [ ] Hasura Docker Compose
   - [ ] Hasura folder basic migration

@@ -46,3 +46,5 @@ export default function App() {
     </html>
   );
 }
+
+export const unstable_shouldReload = () => false;
