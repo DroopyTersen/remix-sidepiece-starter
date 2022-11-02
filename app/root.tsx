@@ -37,7 +37,7 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body className="prose prose-sm">
+      <body className="prose max-w-none prose-sm h-full">
         <Outlet />
         <ScrollRestoration />
         <Scripts />
