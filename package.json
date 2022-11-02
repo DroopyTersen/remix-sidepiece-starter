@@ -11,8 +11,10 @@
     "dev:remix": "remix dev",
     "dev:tailwind": "npm run generate:tailwind -- --watch",
     "dev:sass": "npm run generate:sass -- --watch --no-source-map",
+    "dev:gql": "npm run generate:gql -- --watch",
     "generate:sass": "sass app/styles/:public/css",
     "generate:tailwind": "npx tailwindcss -o ./public/css/tailwind.css",
+    "generate:gql": "graphql-codegen --config ./app/.gql/codegen.ts",
     "start": "remix-serve build",
     "format": "prettier --write \"app/**/*.{js,jsx,ts,tsx}\""
   },
@@ -24,6 +26,8 @@
     "@remix-run/serve": "*",
     "dayjs": "^1.11.6",
     "framer-motion": "^7.6.4",
+    "graphql": "^16.6.0",
+    "graphql-request": "^5.0.0",
     "isbot": "^3.5.4",
     "just-safe-get": "^4.1.1",
     "jwt-decode": "^3.1.2",
@@ -35,6 +39,11 @@
     "zod": "^3.19.1"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "^2.13.11",
+    "@graphql-codegen/typed-document-node": "^2.3.6",
+    "@graphql-codegen/typescript": "^2.8.1",
+    "@graphql-codegen/typescript-operations": "^2.5.6",
+    "@graphql-typed-document-node/core": "^3.1.1",
     "@remix-run/dev": "*",
     "@remix-run/eslint-config": "*",
     "@tailwindcss/typography": "^0.5.7",

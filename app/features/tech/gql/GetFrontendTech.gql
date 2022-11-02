@@ -1,0 +1,12 @@
+query GetTechByLayer($layer: String!) {
+  technologies(where: { layer: { title: { _eq: $layer } } }) {
+    id
+    title
+    description
+    link
+    author {
+      name
+      id
+    }
+  }
+}
