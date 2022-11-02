@@ -1,4 +1,5 @@
 const { execSync } = require("child_process");
+const uuid = require("uuid").v4
 const fs = require("fs/promises");
 const path = require("path");
 
@@ -35,16 +36,16 @@ async function main({ rootDirectory }) {
     // get rid of anything that's not allowed in an app name
     .replace(/[^a-zA-Z0-9-_]/g, "-");
 
-  const [readme, envExample, packageJson] = await Promise.all([
+  const HASURA_JWT_SECRET = uuid();
+
+  let [readme, envExample, packageJson, dockerCompose] = await Promise.all([
     fs.readFile(filePaths.README_TEMPLATE, "utf-8"),
     fs.readFile(filePaths.ENV_EXAMPLE, "utf-8"),
     fs.readFile(filePaths.PACKAGE_JSON, "utf-8"),
   ]);
 
-  const newReadme = readme.replace(
-    new RegExp(escapeRegExp(APP_NAME_REPLACER), "g"),
-    APP_NAME
-  );
+  const newReadme = replaceInFile(readme, APP_NAME_REPLACER, APP_NAME);
+  envExample = replaceInFile(envExample, "REPLACE_HASURA_JWT_SECRET", HASURA_JWT_SECRET);
 
   const newPackageJson =
     JSON.stringify(
@@ -58,6 +59,8 @@ async function main({ rootDirectory }) {
     fs.writeFile(filePaths.ENV_DESTINATION, envExample),
     fs.writeFile(filePaths.PACKAGE_JSON, newPackageJson),
   ]);
+
+  // Setup hasura
   execSync("npx rimraf yarn.lock", { stdio: "inherit", cwd: rootDirectory });
   execSync(`npx rimraf .git`, { stdio: "inherit", cwd: rootDirectory });
   execSync(`git init`, { stdio: "inherit", cwd: rootDirectory });
@@ -74,5 +77,12 @@ Start development with \`npm run dev\`
     `.trim()
   );
 }
+
+const replaceInFile = (fileContents, template, value) => {
+  return fileContents.replace(
+    new RegExp(escapeRegExp(template), "g"),
+    value
+  );
+};
 
 module.exports = main;
