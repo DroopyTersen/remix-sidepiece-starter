@@ -11,7 +11,7 @@ import {
 
 import globalStyles from "../public/css/global.css";
 import tailwindStyles from "../public/css/tailwind.css";
-import { getEnvVar, getPublicEnvVars } from "./toolkit/remix/envVars.server";
+import { getPublicEnvVars } from "./toolkit/remix/envVars.server";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: tailwindStyles },
@@ -25,9 +25,6 @@ export const meta: MetaFunction = () => ({
 });
 
 export const loader = ({}) => {
-  let superSecret = getEnvVar("PRIVATE_SECRET");
-  console.log("🚀 | loader | superSecret", superSecret);
-
   return json({
     ENV: getPublicEnvVars(),
   });

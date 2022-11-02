@@ -1,7 +1,7 @@
 @import "./theme";
 
 html .prose {
-  a {
+  a:not(.btn) {
     color: lighten($primary, 25%);
     transition: color 0.15s ease-out;
     text-decoration: none;
@@ -12,4 +12,8 @@ html .prose {
 
     }
   }
+}
+
+.form-control {
+  width: 100%;
 }
