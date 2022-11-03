@@ -6,13 +6,17 @@
 npm install -g hasura-cli
 ```
 
-## Running Locally
+## Initial Setup
 
-Make sure docker is running with:
+> Make sure you don't have any other docker apps running that use port `8080` or Postgres's `5432`
 
 ```
 docker compose up -d
+hasura migrate apply --project hasura --database-name default
+hasura metadata apply --project hasura
 ```
+
+## Running Local
 
 Start running app
 
