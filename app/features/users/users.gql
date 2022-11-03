@@ -1,0 +1,13 @@
+query GetUserById($id: uuid!) {
+  user: usersByPk(id: $id) {
+    id
+    name
+  }
+}
+query GetAllUsers {
+  users {
+    id
+    name
+    photo
+  }
+}

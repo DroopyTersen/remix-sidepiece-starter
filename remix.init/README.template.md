@@ -1,8 +1,56 @@
 # {remix-stack-app-name}
 
+## Prereqs
+
 ```
-# Start running in Dev mode
+npm install -g hasura-cli
+```
+
+## Initial Setup
+
+> Make sure you don't have any other docker apps running that use port `8080` or Postgres's `5432`
+
+```
+docker compose up -d
+hasura migrate apply --project hasura --database-name default
+hasura metadata apply --project hasura
+```
+
+## Running Local
+
+Start running app
+
+```
 npm run dev
+```
+
+To start creating tables, open Hasura console with:
+
+```
+yarn hasura
+```
+
+## Environment Variables
+
+- Locally assumes you have a `.env` file setup
+- On the server you can access them with `getEnvVar(key)`
+- Anything prefixed with `PUBLIC_` will be available on the client with `useEnvVars()` or `useEnvVar(key)`
+- Also uses `zod` schemas to validate you environment variables so the app crashes right away with a helpful error message.
+
+## Hasura Migrations
+
+### Squash migrations
+
+```
+hasura migrate squash --database-name default --name "<feature-name>" --from <start-migration-version>
+```
+
+### Apply Migrations
+
+```
+hasura metadata apply --endpoint https://YOUR-APP.up.railway.app --admin-secret YOUR_SECRET
+hasura migrate apply --endpoint https://YOUR-APP.up.railway.app --database-name default --admin-secret YOUR_SECRET --version <squashed-migration>
+hasura metadata reload --endpoint https://YOUR-APP.up.railway.app --admin-secret YOUR_SECRET
 ```
 
 ## Tech Stack
