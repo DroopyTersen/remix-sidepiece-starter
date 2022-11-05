@@ -16,6 +16,21 @@ hasura migrate apply --project hasura --database-name default
 hasura metadata apply --project hasura
 ```
 
+### Github Auth
+
+Create a new Github App (not an OAuth App)
+
+```
+Profile -> Settings -> Developer Settings -> Github Apps
+```
+
+1. Add the following callback uri and check "Request user authorization (OAuth)
+   ```
+   https://localhost:3000/api/auth-callback
+   ```
+2. Under Webhook, uncheck the "Active"
+3. Once it's created generate a client secret and it to `GITHUB_CLIENT_SECRET` in `.env`
+
 ## Running Local
 
 Start running app

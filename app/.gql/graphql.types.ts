@@ -89,11 +89,11 @@ export type TimestamptzComparisonExp = {
 export type Users = {
   __typename?: 'Users';
   createdAt: Scalars['timestamptz'];
-  email: Scalars['String'];
   id: Scalars['uuid'];
   name?: Maybe<Scalars['String']>;
   photo?: Maybe<Scalars['String']>;
   updatedAt: Scalars['timestamptz'];
+  username: Scalars['String'];
 };
 
 /** aggregated selection of "users" */
@@ -124,16 +124,16 @@ export type UsersBoolExp = {
   _not?: InputMaybe<UsersBoolExp>;
   _or?: InputMaybe<Array<UsersBoolExp>>;
   createdAt?: InputMaybe<TimestamptzComparisonExp>;
-  email?: InputMaybe<StringComparisonExp>;
   id?: InputMaybe<UuidComparisonExp>;
   name?: InputMaybe<StringComparisonExp>;
   photo?: InputMaybe<StringComparisonExp>;
   updatedAt?: InputMaybe<TimestamptzComparisonExp>;
+  username?: InputMaybe<StringComparisonExp>;
 };
 
 /** unique or primary key constraints on table "users" */
 export enum UsersConstraint {
-  /** unique or primary key constraint on columns "email" */
+  /** unique or primary key constraint on columns "username" */
   UsersEmailKey = 'users_email_key',
   /** unique or primary key constraint on columns "id" */
   UsersPkey = 'users_pkey'
@@ -142,33 +142,33 @@ export enum UsersConstraint {
 /** input type for inserting data into table "users" */
 export type UsersInsertInput = {
   createdAt?: InputMaybe<Scalars['timestamptz']>;
-  email?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['uuid']>;
   name?: InputMaybe<Scalars['String']>;
   photo?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['timestamptz']>;
+  username?: InputMaybe<Scalars['String']>;
 };
 
 /** aggregate max on columns */
 export type UsersMaxFields = {
   __typename?: 'UsersMaxFields';
   createdAt?: Maybe<Scalars['timestamptz']>;
-  email?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['uuid']>;
   name?: Maybe<Scalars['String']>;
   photo?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['timestamptz']>;
+  username?: Maybe<Scalars['String']>;
 };
 
 /** aggregate min on columns */
 export type UsersMinFields = {
   __typename?: 'UsersMinFields';
   createdAt?: Maybe<Scalars['timestamptz']>;
-  email?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['uuid']>;
   name?: Maybe<Scalars['String']>;
   photo?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['timestamptz']>;
+  username?: Maybe<Scalars['String']>;
 };
 
 /** response of any mutation on the table "users" */
@@ -190,11 +190,11 @@ export type UsersOnConflict = {
 /** Ordering options when selecting data from "users". */
 export type UsersOrderBy = {
   createdAt?: InputMaybe<OrderBy>;
-  email?: InputMaybe<OrderBy>;
   id?: InputMaybe<OrderBy>;
   name?: InputMaybe<OrderBy>;
   photo?: InputMaybe<OrderBy>;
   updatedAt?: InputMaybe<OrderBy>;
+  username?: InputMaybe<OrderBy>;
 };
 
 /** primary key columns input for table: users */
@@ -207,25 +207,25 @@ export enum UsersSelectColumn {
   /** column name */
   CreatedAt = 'createdAt',
   /** column name */
-  Email = 'email',
-  /** column name */
   Id = 'id',
   /** column name */
   Name = 'name',
   /** column name */
   Photo = 'photo',
   /** column name */
-  UpdatedAt = 'updatedAt'
+  UpdatedAt = 'updatedAt',
+  /** column name */
+  Username = 'username'
 }
 
 /** input type for updating data in table "users" */
 export type UsersSetInput = {
   createdAt?: InputMaybe<Scalars['timestamptz']>;
-  email?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['uuid']>;
   name?: InputMaybe<Scalars['String']>;
   photo?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['timestamptz']>;
+  username?: InputMaybe<Scalars['String']>;
 };
 
 /** update columns of table "users" */
@@ -233,15 +233,15 @@ export enum UsersUpdateColumn {
   /** column name */
   CreatedAt = 'createdAt',
   /** column name */
-  Email = 'email',
-  /** column name */
   Id = 'id',
   /** column name */
   Name = 'name',
   /** column name */
   Photo = 'photo',
   /** column name */
-  UpdatedAt = 'updatedAt'
+  UpdatedAt = 'updatedAt',
+  /** column name */
+  Username = 'username'
 }
 
 export type UsersUpdates = {
@@ -414,25 +414,35 @@ export type Users_StreamCursorInput = {
 /** Initial value of the column from where the streaming should start */
 export type Users_StreamCursorValueInput = {
   createdAt?: InputMaybe<Scalars['timestamptz']>;
-  email?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['uuid']>;
   name?: InputMaybe<Scalars['String']>;
   photo?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['timestamptz']>;
+  username?: InputMaybe<Scalars['String']>;
 };
 
-export type GetUserByIdQueryVariables = Exact<{
-  id: Scalars['uuid'];
+export type GetUsersByUsernameQueryVariables = Exact<{
+  username?: InputMaybe<Scalars['String']>;
 }>;
 
 
-export type GetUserByIdQuery = { __typename?: 'query_root', user?: { __typename?: 'Users', id: any, name?: string | null } | null };
+export type GetUsersByUsernameQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'Users', id: any, name?: string | null, username: string }> };
 
 export type GetAllUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetAllUsersQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'Users', id: any, name?: string | null, photo?: string | null }> };
+export type GetAllUsersQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'Users', id: any, name?: string | null, username: string, photo?: string | null }> };
+
+export type InsertUserMutationVariables = Exact<{
+  username?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+  photo?: InputMaybe<Scalars['String']>;
+}>;
 
 
-export const GetUserByIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetUserById"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"user"},"name":{"kind":"Name","value":"usersByPk"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]} as unknown as DocumentNode<GetUserByIdQuery, GetUserByIdQueryVariables>;
-export const GetAllUsersDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetAllUsers"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"users"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"photo"}}]}}]}}]} as unknown as DocumentNode<GetAllUsersQuery, GetAllUsersQueryVariables>;
+export type InsertUserMutation = { __typename?: 'mutation_root', user?: { __typename?: 'Users', id: any, name?: string | null, username: string, photo?: string | null } | null };
+
+
+export const GetUsersByUsernameDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetUsersByUsername"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"username"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"users"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"IntValue","value":"1"}},{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"username"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_ilike"},"value":{"kind":"Variable","name":{"kind":"Name","value":"username"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"username"}}]}}]}}]} as unknown as DocumentNode<GetUsersByUsernameQuery, GetUsersByUsernameQueryVariables>;
+export const GetAllUsersDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetAllUsers"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"users"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"photo"}}]}}]}}]} as unknown as DocumentNode<GetAllUsersQuery, GetAllUsersQueryVariables>;
+export const InsertUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"InsertUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"username"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"name"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"photo"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"user"},"name":{"kind":"Name","value":"insertUsersOne"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"object"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"username"},"value":{"kind":"Variable","name":{"kind":"Name","value":"username"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"name"},"value":{"kind":"Variable","name":{"kind":"Name","value":"name"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"photo"},"value":{"kind":"Variable","name":{"kind":"Name","value":"photo"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"photo"}}]}}]}}]} as unknown as DocumentNode<InsertUserMutation, InsertUserMutationVariables>;

@@ -1,4 +1,5 @@
 import { Link } from "@remix-run/react";
+import { LoginButton } from "~/routes/__auth/login";
 import { FormButton } from "~/toolkit/components/buttons/FormButton";
 import { useCurrentUser } from "../auth/useCurrentUser";
 
@@ -10,13 +11,13 @@ export function AppLayout({ children }: AppLayoutProps) {
   const currentUser = useCurrentUser();
   return (
     <main className="w-full">
-      <div className="navbar bg-base-200 w-full px-2">
+      <div className="w-full px-2 navbar bg-base-200">
         <div className="navbar-start">
           <div className="dropdown">
             <label tabIndex={0} className="btn btn-ghost btn-circle">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
+                className="w-5 h-5"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -31,7 +32,7 @@ export function AppLayout({ children }: AppLayoutProps) {
             </label>
             <ul
               tabIndex={0}
-              className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-300 rounded-box w-52"
+              className="p-2 mt-3 shadow menu menu-compact dropdown-content bg-base-300 rounded-box w-52"
             >
               <li>
                 <a>Homepage</a>
@@ -46,7 +47,7 @@ export function AppLayout({ children }: AppLayoutProps) {
           </div>
         </div>
         <div className="navbar-center">
-          <Link to="/" className="btn btn-ghost normal-case text-white text-xl">
+          <Link to="/" className="text-xl text-white normal-case btn btn-ghost">
             Your App
           </Link>
         </div>
@@ -60,9 +61,7 @@ export function AppLayout({ children }: AppLayoutProps) {
                 </FormButton>
               </>
             ) : (
-              <Link to="/login" className="btn btn-primary">
-                Login
-              </Link>
+              <LoginButton />
             )}
           </div>
         </div>

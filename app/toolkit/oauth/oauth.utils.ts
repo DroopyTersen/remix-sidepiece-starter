@@ -23,6 +23,7 @@ export const fetchToken = (token_uri, params: any): Promise<OAuthTokenData> => {
   return fetch(token_uri, {
     method: "POST",
     headers: {
+      accept: "application/json",
       "content-type": "application/x-www-form-urlencoded",
     },
     body: new URLSearchParams(params).toString(),

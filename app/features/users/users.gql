@@ -1,13 +1,26 @@
-query GetUserById($id: uuid!) {
-  user: usersByPk(id: $id) {
+query GetUsersByUsername($username: String) {
+  users(limit: 1, where: { username: { _ilike: $username } }) {
     id
     name
+    username
   }
 }
 query GetAllUsers {
   users {
     id
     name
+    username
+    photo
+  }
+}
+
+mutation InsertUser($username: String, $name: String, $photo: String) {
+  user: insertUsersOne(
+    object: { username: $username, name: $name, photo: $photo }
+  ) {
+    id
+    name
+    username
     photo
   }
 }
