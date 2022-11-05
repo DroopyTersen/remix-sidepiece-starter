@@ -1,4 +1,5 @@
 import {
+  GetUserByIdDocument,
   GetUsersByUsernameDocument,
   InsertUserDocument,
 } from "~/.gql/graphql.types";
@@ -10,6 +11,11 @@ export const getUserByUsername = async (
 ) => {
   let data = await gqlClient.request(GetUsersByUsernameDocument, { username });
   return data?.users?.[0];
+};
+
+export const getUserById = async (gqlClient: GqlClient, id: string) => {
+  let data = await gqlClient.request(GetUserByIdDocument, { id });
+  return data?.user;
 };
 
 export const insertUser = async (

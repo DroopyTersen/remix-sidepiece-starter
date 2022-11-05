@@ -10,6 +10,13 @@ query GetUsersByUsername($username: String) {
     ...UserFields
   }
 }
+
+query GetUserById($id: uuid!) {
+  user: usersByPk(id: $id) {
+    ...UserFields
+  }
+}
+
 query GetAllUsers {
   users {
     ...UserFields

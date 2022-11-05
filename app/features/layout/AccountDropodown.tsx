@@ -1,3 +1,4 @@
+import { Link } from "@remix-run/react";
 import { AvatarImage } from "~/toolkit/components/avatar/Avatar";
 import { FormButton } from "~/toolkit/components/buttons/FormButton";
 import { Dropdown } from "~/toolkit/components/dropdown/Dropdown";
@@ -17,6 +18,13 @@ export function AccountDropodown({ user }: AccountDropodownProps) {
         <div className="mb-2 text-center">
           <b>{user.name || user.username}</b>
         </div>
+        <ul className="menu menu-compact">
+          <li>
+            <Link to="/my-profile" className="menu-item">
+              My Profile
+            </Link>
+          </li>
+        </ul>
         <FormButton action="/logout" className="btn btn-ghost btn-sm btn-block">
           Log out
         </FormButton>
