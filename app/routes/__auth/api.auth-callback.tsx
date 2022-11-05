@@ -10,13 +10,14 @@ import {
   getUserByUsername,
   insertUser,
 } from "~/features/users/users.data.server";
+import { AppUser } from "~/features/users/users.types";
 import { getAuthRedirectUri } from "~/toolkit/http/url.utils";
 
 export const loader: LoaderFunction = async ({ request }) => {
   let searchParams = new URL(request.url).searchParams;
   let code = searchParams.get("code");
   let state = searchParams.get("state");
-  let returnTo = searchParams.get("returnTo");
+  let returnTo = searchParams.get("returnTo") || "/";
   let error = searchParams.get("error");
   let error_description = searchParams.get("error_description");
 
@@ -38,8 +39,13 @@ export const loader: LoaderFunction = async ({ request }) => {
   }
 
   let githubProfile = await fetchGithubProfile(githubTokenResult.access_token);
-
-  let user = await getUserByUsername(adminClient, githubProfile.login);
+  if (!githubProfile?.login) {
+    throw new Error("Unable to get github login (username)");
+  }
+  let user: AppUser | undefined | null = await getUserByUsername(
+    adminClient,
+    githubProfile?.login
+  );
   if (!user) {
     user = await insertUser(adminClient, {
       name: githubProfile.name,
@@ -47,7 +53,10 @@ export const loader: LoaderFunction = async ({ request }) => {
       photo: githubProfile.avatar_url,
     });
   }
-  let hasuraToken = await signHasuraToken(user);
+  if (!user) {
+    throw Error("Unable find existing user or create a new user");
+  }
+  let hasuraToken = signHasuraToken(user);
 
-  return authSession.create({ user, hasuraToken }, returnTo);
+  return authSession.create({ userId: user.id, hasuraToken }, returnTo);
 };

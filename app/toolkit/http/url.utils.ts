@@ -1,10 +1,10 @@
 export const isBrowser = typeof window !== "undefined";
 
 export const mergeUrl = (
-  { path = "", query = {} },
+  { path = "", query = {} }: { path?: string; query?: Record<string, string> },
   location?: { pathname: string; search: string }
 ) => {
-  location = location || isBrowser ? window.location : null;
+  location = location || isBrowser ? window.location : undefined;
   if (!location) {
     throw new Error("mergeUrl error - you must provide a current location/URL");
   }
@@ -37,7 +37,7 @@ export const getReturnToUrl = (
   requestUrl: string | URL,
   fallback = ""
 ): string => {
-  if (!requestUrl) return null;
+  if (!requestUrl) return "";
 
   let url = new URL(requestUrl);
   let returnTo = new URL(

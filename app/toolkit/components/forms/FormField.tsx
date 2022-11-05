@@ -8,7 +8,7 @@ export const FormField = ({
   children,
   hint,
 }: FormFieldProps) => {
-  const errorMsg = parseErrorMessage(error, label);
+  const errorMsg = parseErrorMessage(error);
   return (
     <div className={`form-control ${className}`}>
       <label className="label" htmlFor={name}>
@@ -30,7 +30,7 @@ export const FormField = ({
       )}
       {errorMsg && (
         <label className="label">
-          <span className="label-text-alt text-red-200" id={`${name}-hit`}>
+          <span className="text-red-200 label-text-alt" id={`${name}-hit`}>
             {errorMsg}
           </span>
         </label>
@@ -89,7 +89,7 @@ export const pluckFormFieldProps = (props: any) => {
   };
 };
 
-export const parseErrorMessage = (error: Error | string, label) => {
+export const parseErrorMessage = (error?: Error | string) => {
   if (!error) return "";
   if (typeof error === "string") return error;
 

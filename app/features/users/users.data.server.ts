@@ -1,8 +1,12 @@
+import z from "zod";
 import {
   GetUserByIdDocument,
   GetUsersByUsernameDocument,
   InsertUserDocument,
+  UpdateUserDocument,
+  UsersInsertInput,
 } from "~/.gql/graphql.types";
+
 import { GqlClient } from "~/toolkit/http/createGqlClient";
 
 export const getUserByUsername = async (
@@ -20,12 +24,32 @@ export const getUserById = async (gqlClient: GqlClient, id: string) => {
 
 export const insertUser = async (
   gqlClient: GqlClient,
-  { name, username, photo }
+  { name, username, photo }: UsersInsertInput
 ) => {
   let data = await gqlClient.request(InsertUserDocument, {
     name,
     username,
     photo,
   });
+  return data?.user;
+};
+
+const UpdateUserSchema = z.object({
+  name: z.string().optional(),
+  photo: z.string().url().or(z.literal("")),
+});
+
+export const updateUserProfile = async (
+  gqlClient: GqlClient,
+  userId: string,
+  formData: FormData
+) => {
+  let updates = UpdateUserSchema.parse(Object.fromEntries(formData));
+  console.log("🚀 | updates", updates);
+  let data = await gqlClient.request(UpdateUserDocument, {
+    id: userId,
+    updates,
+  });
+
   return data?.user;
 };
