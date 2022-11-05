@@ -15,16 +15,14 @@ export function AccountDropodown({ user }: AccountDropodownProps) {
         <AvatarImage photo={user.photo} name={user.name || user.username} />
       </Dropdown.CircleTrigger>
       <Dropdown.Content className="p-2 min-w-[200px] ">
-        <div className="mb-2 text-center">
-          <b>{user.name || user.username}</b>
+        <div className="my-2 text-sm text-center text-gray-300">
+          {user.name || user.username}
         </div>
-        <ul className="menu menu-compact">
-          <li>
-            <Link to="/my-profile" className="menu-item">
-              My Profile
-            </Link>
-          </li>
-        </ul>
+
+        <Link to="/my-profile" className="btn btn-ghost btn-sm btn-block">
+          My Profile
+        </Link>
+        <hr className="my-2 border-gray-100/30" />
         <FormButton action="/logout" className="btn btn-ghost btn-sm btn-block">
           Log out
         </FormButton>
