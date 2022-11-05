@@ -1,6 +1,5 @@
 import { createUserGqlClient } from "~/common/hasura.server";
 import { GqlClient } from "~/toolkit/http/createGqlClient";
-import { AppUser } from "../users/users.types";
 import { authSession } from "./authSession.server";
 
 /** Require a user to be logged into hit your loader. Returns the auth session data. */
@@ -9,7 +8,7 @@ export const requireAuthenticatedLoader = async (request: Request) => {
   let gqlClient = createUserGqlClient(sessionData.hasuraToken);
 
   return {
-    user: sessionData.user,
+    userId: sessionData.userId,
     gqlClient,
   };
 };
@@ -18,13 +17,13 @@ export interface AuthenticatedAction {
   /** Used when multiple forms submit to the same action */
   intent?: string;
   /** The submitted form values as FormData */
-  formData?: FormData;
+  formData: FormData;
   /** Will be hydrated if content-type is application/json, otherwise null. */
-  jsonData?: any;
+  jsonData: any;
   /** Looks for either a querystring params or FormData for a value. */
   returnTo?: string;
-  /** Pulls the current user out of session data */
-  user: AppUser;
+  /** Pulls the current userId out of session data */
+  userId: string;
   /** A gqlClient for the current user's access token */
   gqlClient: GqlClient;
 }
@@ -34,7 +33,7 @@ export const requireAuthenticatedAction = async (
   request: Request
 ): Promise<AuthenticatedAction> => {
   let userSession = await authSession.require(request);
-  let formData: FormData;
+  let formData: FormData = new FormData();
   let intent = "";
   let jsonData = null;
   if (request.headers.get("Content-Type") === "application/json") {
@@ -57,6 +56,6 @@ export const requireAuthenticatedAction = async (
     formData,
     returnTo: returnTo as string,
     gqlClient,
-    user: userSession.user,
+    userId: userSession.userId,
   };
 };

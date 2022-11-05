@@ -1,59 +1,104 @@
-import { json, LoaderArgs } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { ActionArgs, json, LoaderArgs, redirect } from "@remix-run/node";
+import { Form, useActionData, useLoaderData } from "@remix-run/react";
 import { useState } from "react";
-import { requireAuthenticatedLoader } from "~/features/auth/auth.remix.server";
+import { ZodError } from "zod";
+import {
+  requireAuthenticatedAction,
+  requireAuthenticatedLoader,
+} from "~/features/auth/auth.remix.server";
 import { MainContentPadded } from "~/features/layout/AppLayout";
+import {
+  getUserById,
+  updateUserProfile,
+} from "~/features/users/users.data.server";
 import { AppErrorBoundary } from "~/toolkit/components/errors/AppErrorBoundary";
-import { InputField } from "~/toolkit/components/forms";
+import { InputField, TextAreaField } from "~/toolkit/components/forms";
+import { findZodFieldError } from "~/toolkit/utils/zod.utils";
 
 export const loader = async ({ request, params }: LoaderArgs) => {
-  let { user } = await requireAuthenticatedLoader(request);
-
+  let { userId, gqlClient } = await requireAuthenticatedLoader(request);
+  let user = await getUserById(gqlClient, userId);
   return json({ user });
+};
+
+export const action = async ({ request, params }: ActionArgs) => {
+  let { formData, gqlClient, userId } = await requireAuthenticatedAction(
+    request
+  );
+  try {
+    await updateUserProfile(gqlClient, userId, formData);
+
+    return redirect("/my-profile");
+  } catch (err: unknown) {
+    if (err instanceof ZodError) {
+      console.log("ZODE ERROR", err);
+      return json({ error: err }, { status: 400 });
+    }
+    return json(
+      { error: err, formValues: Object.fromEntries(formData) },
+      { status: 500 }
+    );
+  }
 };
 
 export default function MyProfileRoute() {
   let data = useLoaderData<typeof loader>();
+  let actionData = useActionData();
+  let error: ZodError = actionData?.error;
+  console.log("🚀 | MyProfileRoute | actionData", actionData);
   let [photo, setPhoto] = useState(
-    data.user.photo || "https://via.placeholder.com/300"
+    data?.user?.photo || "https://via.placeholder.com/300"
   );
-  let [name, setName] = useState(data.user.name || "");
+
   return (
     <MainContentPadded>
       <div className="flex items-center gap-4">
         <img
           alt="Profile photo"
           className="w-24 m-0 rounded-full"
-          src={photo || "https://via.placeholder.com/160?text=No Photo"}
+          src={
+            data?.user?.photo || "https://via.placeholder.com/160?text=No Photo"
+          }
         />
         <div>
           <div className="text-lg">My Profile</div>
-          <h1 className="m-0 text-secondary">{name}</h1>
+          <h1 className="m-0 text-secondary">{data?.user?.name}</h1>
         </div>
       </div>
-      <form className="mt-4">
+      <Form method="post" className="max-w-sm mt-4">
         <fieldset className="space-y-4">
           <InputField
             label="Name"
             name="name"
-            defaultValue={data.user.name}
+            defaultValue={data?.user?.name || ""}
             required
-            onBlur={(e) => setName(e.currentTarget.value)}
           />
           <InputField
             label="Username"
             name="username"
             disabled
-            defaultValue={data.user.username}
+            defaultValue={data?.user?.username}
           />
-          <InputField
-            label="Photo"
-            name="photo"
-            defaultValue={data.user.photo}
-            onBlur={(e) => setPhoto(e.currentTarget.value)}
-          />
+          <div className="flex gap-2">
+            <TextAreaField
+              label="Photo"
+              name="photo"
+              rows={3}
+              defaultValue={data?.user?.photo || ""}
+              error={findZodFieldError(error, "photo")?.message}
+              onBlur={(e) => setPhoto(e.currentTarget.value)}
+            />
+            <img
+              alt="Profile photo"
+              className="m-0 mt-10 rounded-full w-14 h-14"
+              src={photo || "https://via.placeholder.com/160?text=No Photo"}
+            />
+          </div>
+          <div>
+            <button className="btn btn-primary btn-block">Save</button>
+          </div>
         </fieldset>
-      </form>
+      </Form>
     </MainContentPadded>
   );
 }

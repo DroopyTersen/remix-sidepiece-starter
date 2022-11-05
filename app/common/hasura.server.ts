@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import { AppUser } from "~/features/users/users.types";
 import { createGraphQLClient } from "~/toolkit/http/createGqlClient";
 import { getEnvVar } from "~/toolkit/remix/envVars.server";
 
@@ -22,13 +23,7 @@ export const createUserGqlClient = (token: string) => {
   });
 };
 
-interface UserPayload {
-  id: string;
-  name?: string;
-  username: string;
-}
-
-export const signHasuraToken = (user: UserPayload) => {
+export const signHasuraToken = (user: AppUser) => {
   let claims: any = fillHasuraClaims(user);
   return jwt.sign(claims, getEnvVar("HASURA_JWT_SECRET"), {
     expiresIn: "40 days",
@@ -47,7 +42,7 @@ export const tryValidateToken = async (token: string) => {
   }
 };
 
-export function fillHasuraClaims({ id, name, username }: UserPayload) {
+export function fillHasuraClaims({ id, name, username }: AppUser) {
   let role = "user";
 
   return {
