@@ -1,3 +1,4 @@
+import jwt from "jsonwebtoken";
 import { createGraphQLClient } from "~/toolkit/http/createGqlClient";
 import { getEnvVar } from "~/toolkit/remix/envVars.server";
 
@@ -20,3 +21,43 @@ export const createUserGqlClient = (token: string) => {
     access_token: token,
   });
 };
+
+interface UserPayload {
+  id: string;
+  name?: string;
+  username: string;
+}
+
+export const signHasuraToken = (user: UserPayload) => {
+  let claims: any = fillHasuraClaims(user);
+  return jwt.sign(claims, getEnvVar("HASURA_JWT_SECRET"), {
+    expiresIn: "40 days",
+  });
+};
+
+export const validateToken = async (token: string) => {
+  return jwt.verify(token, getEnvVar("HASURA_JWT_SECRET"));
+};
+
+export const tryValidateToken = async (token: string) => {
+  try {
+    return await validateToken(token);
+  } catch (err) {
+    return null;
+  }
+};
+
+export function fillHasuraClaims({ id, name, username }: UserPayload) {
+  let role = "user";
+
+  return {
+    "https://hasura.io/jwt/claims": {
+      "x-hasura-allowed-roles": [role],
+      "x-hasura-default-role": role,
+      "x-hasura-user-id": id,
+    },
+    username,
+    name: name || username,
+    id,
+  };
+}

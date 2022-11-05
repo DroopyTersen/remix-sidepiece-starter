@@ -5,28 +5,28 @@ select_permissions:
   - role: anonymous
     permission:
       columns:
-        - email
+        - created_at
+        - id
         - name
         - photo
-        - created_at
         - updated_at
-        - id
+        - username
       filter: {}
   - role: user
     permission:
       columns:
+        - created_at
         - id
-        - email
         - name
         - photo
-        - created_at
         - updated_at
+        - username
       filter: {}
 update_permissions:
   - role: user
     permission:
       columns:
-        - email
+        - username
         - name
         - photo
       filter:

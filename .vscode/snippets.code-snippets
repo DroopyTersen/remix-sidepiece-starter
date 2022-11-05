@@ -20,9 +20,11 @@
     "body": [
       "import { json, LoaderArgs } from \"@remix-run/node\";",
       "import { useLoaderData } from \"@remix-run/react\";",
+      "import { requireAuthenticatedLoader } from \"~/features/auth/auth.remix.server\";",
       "import { AppErrorBoundary } from \"~/toolkit/components/errors/AppErrorBoundary\";",
       "",
       "export const loader = async ({ request, params }: LoaderArgs) => {",
+      "  let { gqlClient } = await requireAuthenticatedLoader(request);",
       "  return json({ message: \"${1:NAME}\" });",
       "};",
       "",

@@ -1,6 +1,5 @@
 import dayjs from "dayjs";
 import "isomorphic-fetch";
-import { querystring } from "../utils";
 import type {
   AuthRedirectParams,
   OAuthConfig,
@@ -37,7 +36,9 @@ export class OAuthProvider {
       scope: this.config.scope,
       ...overrides,
     };
-    return this.config.auth_uri + "?" + querystring.stringify(mergedParams as any);
+    return (
+      this.config.auth_uri + "?" + new URLSearchParams(mergedParams as any)
+    );
   };
 
   private _fetchToken = (overrides: Partial<TokenParams>) => {
@@ -46,10 +47,10 @@ export class OAuthProvider {
       headers: {
         "content-type": "application/x-www-form-urlencoded",
       },
-      body: querystring.stringify({
+      body: new URLSearchParams({
         ...this.defaultTokenParams,
         ...overrides,
-      }),
+      }).toString(),
     }).then(async (resp) => {
       if (!resp.ok) {
         let errorText = await resp.text();
@@ -69,7 +70,10 @@ export class OAuthProvider {
     });
   };
 
-  getToken = async (code: string, overrides?: Partial<TokenParams>): Promise<OAuthTokenData> => {
+  getToken = async (
+    code: string,
+    overrides?: Partial<TokenParams>
+  ): Promise<OAuthTokenData> => {
     let tokenData = await this._fetchToken({
       grant_type: "authorization_code",
       code,
@@ -88,7 +92,9 @@ export class OAuthProvider {
     if (!tokenData) return;
     let accessToken = tokenData?.access_token;
     let isInvalid =
-      !accessToken || !tokenData?.expires || dayjs(tokenData?.expires).isBefore(new Date());
+      !accessToken ||
+      !tokenData?.expires ||
+      dayjs(tokenData?.expires).isBefore(new Date());
 
     if (isInvalid && tokenData?.refresh_token) {
       // console.log("🚀 | newData", tokenData.refresh_token);

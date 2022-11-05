@@ -1,4 +1,4 @@
-import { json, LinksFunction, MetaFunction } from "@remix-run/node";
+import { json, LinksFunction, LoaderArgs, MetaFunction } from "@remix-run/node";
 
 import {
   Links,
@@ -7,10 +7,13 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  ShouldReloadFunction,
 } from "@remix-run/react";
 
 import globalStyles from "../public/css/global.css";
 import tailwindStyles from "../public/css/tailwind.css";
+import { authSession } from "./features/auth/authSession.server";
+import { AppLayout } from "./features/layout/AppLayout";
 import { getPublicEnvVars } from "./toolkit/remix/envVars.server";
 
 export const links: LinksFunction = () => [
@@ -24,8 +27,10 @@ export const meta: MetaFunction = () => ({
   viewport: "width=device-width,initial-scale=1",
 });
 
-export const loader = ({}) => {
+export const loader = async ({ request }: LoaderArgs) => {
+  let userSession = await authSession.get(request);
   return json({
+    user: userSession?.user,
     ENV: getPublicEnvVars(),
   });
 };
@@ -37,8 +42,10 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body className="prose max-w-none prose-sm h-full">
-        <Outlet />
+      <body className="h-full">
+        <AppLayout>
+          <Outlet />
+        </AppLayout>
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
@@ -47,4 +54,5 @@ export default function App() {
   );
 }
 
-export const unstable_shouldReload = () => false;
+export const unstable_shouldReload: ShouldReloadFunction = ({ submission }) =>
+  !!submission;

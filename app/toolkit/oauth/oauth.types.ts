@@ -33,6 +33,7 @@ export interface TokenParams {
   code?: string;
   refresh_token?: string;
   grant_type?: string;
+  state?: string;
 }
 
 export interface AuthRedirectParams {

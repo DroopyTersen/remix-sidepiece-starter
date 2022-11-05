@@ -1,9 +1,16 @@
 import { createCookieSessionStorage, redirect } from "@remix-run/node";
 import { getEnvVar } from "~/toolkit/remix/envVars.server";
-import type { SessionData } from "./auth.types";
+import { AppUser } from "../users/users.types";
 
-const SESSION_SECRET = getEnvVar("SESSION_SECRET");
+const SESSION_SECRET =
+  getEnvVar("SESSION_SECRET") || getEnvVar("HASURA_JWT_SECRET");
 const SESSION_NAME = "__auth_session";
+const SESSION_MAX_AGE = 60 * 60 * 24 * 30; // 30 days
+
+interface SessionData {
+  user: AppUser;
+  hasuraToken: string;
+}
 
 const storage = createCookieSessionStorage({
   cookie: {
@@ -15,7 +22,7 @@ const storage = createCookieSessionStorage({
     secrets: SESSION_SECRET ? [SESSION_SECRET] : undefined,
     sameSite: "lax",
     path: "/",
-    maxAge: 1000 * 60 * 60 * 23,
+    maxAge: SESSION_MAX_AGE,
     httpOnly: true,
   },
 });
@@ -23,10 +30,6 @@ const storage = createCookieSessionStorage({
 export const authSession = {
   /** Create a session cookie for the user who as just logged in */
   create: async (sessionData: SessionData, redirectTo: string) => {
-    // If no session secret has been configured throw an error and prevent login
-    if (!SESSION_SECRET)
-      throw Error("Unable to login: Missing SESSION_SECRET env variable");
-
     const session = await storage.getSession();
     session.set("data", sessionData);
     return redirect(redirectTo, {

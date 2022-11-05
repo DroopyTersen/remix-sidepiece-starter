@@ -13,6 +13,8 @@ export const PrivateEnvVarSchema = z.object({
   HASURA_ADMIN_SECRET: z.string(),
   HASURA_JWT_SECRET: z.string(),
   SESSION_SECRET: z.string().optional(),
+  GITHUB_CLIENT_ID: z.string(),
+  GITHUB_CLIENT_SECRET: z.string(),
 });
 export const EnvVarSchema = PrivateEnvVarSchema.extend(
   PublicEnvVarSchema.shape
