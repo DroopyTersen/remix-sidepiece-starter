@@ -32,7 +32,6 @@ export const meta: MetaFunction = () => ({
 
 export const loader = async ({ request }: LoaderArgs) => {
   let userSession = await authSession.get(request);
-  console.log("🚀 | loader | userSession", userSession);
   let user: AppUser | undefined | null;
   if (userSession?.userId && userSession?.hasuraToken) {
     user = await getUserById(

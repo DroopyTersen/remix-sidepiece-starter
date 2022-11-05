@@ -45,7 +45,6 @@ export const updateUserProfile = async (
   formData: FormData
 ) => {
   let updates = UpdateUserSchema.parse(Object.fromEntries(formData));
-  console.log("🚀 | updates", updates);
   let data = await gqlClient.request(UpdateUserDocument, {
     id: userId,
     updates,

@@ -9,6 +9,6 @@ export const findParentData = <T>(
     .reverse()
     .filter(Boolean)
     .find((data) => selector(data));
-  // console.log("🚀 | match", match);
+
   return selector(match) as T;
 };

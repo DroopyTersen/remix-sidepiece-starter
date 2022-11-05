@@ -1,5 +1,4 @@
 import dayjs from "dayjs";
-import "isomorphic-fetch";
 import decode from "jwt-decode";
 import { OAuthTokenData } from "./oauth.types";
 
@@ -19,7 +18,10 @@ export const calcTokenExpiration = (data: OAuthTokenData) => {
   return dayjs().add(data.expires_in, "seconds").format();
 };
 
-export const fetchToken = (token_uri, params: any): Promise<OAuthTokenData> => {
+export const fetchToken = (
+  token_uri: string,
+  params: any
+): Promise<OAuthTokenData> => {
   return fetch(token_uri, {
     method: "POST",
     headers: {

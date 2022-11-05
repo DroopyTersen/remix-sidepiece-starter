@@ -4,7 +4,11 @@ import { ErrorContainer } from "./ErrorContainer";
 // We can reuse this component for
 // both unhandled exceptions (ErrorBoundary)
 // and thrown Responses (CatchBoundary)
-export const AppErrorBoundary = ({ error: errorBoundaryError }) => {
+export const AppErrorBoundary = ({
+  error: errorBoundaryError,
+}: {
+  error: any;
+}) => {
   let caughtThing = useCatch();
   let error = caughtThing || errorBoundaryError;
   let message = tryParseMessage(error);
@@ -19,7 +23,7 @@ export const AppErrorBoundary = ({ error: errorBoundaryError }) => {
 type ThrownErrorType =
   | string
   | Error
-  | { status; data: any }
+  | { status: number; data: any }
   // DIY Error
   | { message: string }
   // Diy error array
@@ -27,7 +31,6 @@ type ThrownErrorType =
 
 let tryParseMessage = (thrown: ThrownErrorType) => {
   if (!thrown) return "Unknown error";
-  console.log("🚀 | tryParseMessage | thrown", thrown);
   if (typeof thrown === "string") return thrown;
   if ("message" in thrown) return thrown.message;
   if ("data" in thrown) {

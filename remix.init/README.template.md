@@ -12,6 +12,7 @@ npm install -g hasura-cli
 
 ```
 docker compose up -d
+sleep 5
 hasura migrate apply --project hasura --database-name default
 hasura metadata apply --project hasura
 ```
