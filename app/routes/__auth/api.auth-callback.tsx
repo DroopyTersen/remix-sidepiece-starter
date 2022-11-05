@@ -31,20 +31,13 @@ export const loader: LoaderFunction = async ({ request }) => {
   console.log("🚀 | constloader:LoaderFunction= | code", code);
   let adminClient = createAdminGqlClient();
   let githubTokenResult = await fetchGithubAccessToken(code, redirect_uri);
-  console.log(
-    "🚀 | constloader:LoaderFunction= | githubTokenResult",
-    githubTokenResult
-  );
   // console.log("🚀 | consthandler:Handler= | tokenResult", tokenResult);
   if (!githubTokenResult) {
     throw new Error("Unble to get access token");
   }
 
   let githubProfile = await fetchGithubProfile(githubTokenResult.access_token);
-  console.log(
-    "🚀 | constloader:LoaderFunction= | githubProfile",
-    githubProfile
-  );
+
   let user = await getUserByUsername(adminClient, githubProfile.login);
   if (!user) {
     user = await insertUser(adminClient, {
@@ -55,5 +48,5 @@ export const loader: LoaderFunction = async ({ request }) => {
   }
   let hasuraToken = await signHasuraToken(user);
 
-  return createUserSession(user.id, hasuraToken, returnTo);
+  return createUserSession(user, hasuraToken, returnTo);
 };

@@ -1,8 +1,12 @@
 import { createCookieSessionStorage, redirect } from "@remix-run/node";
 import { createUserGqlClient } from "~/common/hasura.server";
+import { getEnvVar } from "~/toolkit/remix/envVars.server";
+import { tryParseJson } from "~/toolkit/utils/tryParseJson";
+import { AppUser } from "../users/users.types";
 
-const SESSION_SECRET = "dotadda-app-is-great";
-const AUTH_COOKIE = "dotadda-auth-admin";
+const SESSION_SECRET =
+  getEnvVar("SESSION_SECRET") || getEnvVar("HASURA_JWT_SECRET");
+const AUTH_COOKIE = "__droopy_session";
 
 const storage = createCookieSessionStorage({
   cookie: {
@@ -20,13 +24,14 @@ const storage = createCookieSessionStorage({
 });
 
 export async function createUserSession(
-  userId: string,
+  user: AppUser,
   hasuraToken: string,
   redirectTo: string
 ) {
+  console.log("🚀 | createUserSession", user);
   const session = await storage.getSession();
   session.set("access_token", hasuraToken);
-  session.set("user_id", userId);
+  session.set("user", JSON.stringify(user));
   return redirect(redirectTo, {
     headers: {
       "Set-Cookie": await storage.commitSession(session),
@@ -40,12 +45,12 @@ function getUserSession(request: Request) {
 
 export async function getUserFromSession(request: Request) {
   const session = await getUserSession(request);
-  const userId = session.get("user_id");
+  const user = tryParseJson<AppUser>(session.get("user"));
   const access_token = session.get("access_token");
-  if (!userId || !access_token) return null;
+  if (!user || !access_token) return null;
 
   return {
-    userId,
+    user,
     access_token,
   };
 }

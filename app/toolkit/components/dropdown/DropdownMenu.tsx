@@ -2,7 +2,12 @@ import * as RadixDropdownMenu from "@radix-ui/react-dropdown-menu";
 import { Link } from "@remix-run/react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 
-export function DropdownMenu({ label, children, className, align = "left" }: DropdownMenuProps) {
+export function DropdownMenu({
+  label,
+  children,
+  className,
+  align = "left",
+}: DropdownMenuProps) {
   return (
     <RadixDropdownMenu.Root modal={false}>
       {typeof label === "string" ? (
@@ -10,11 +15,15 @@ export function DropdownMenu({ label, children, className, align = "left" }: Dro
           {label}
         </RadixDropdownMenu.Trigger>
       ) : (
-        <RadixDropdownMenu.Trigger asChild={true}>{label}</RadixDropdownMenu.Trigger>
+        <RadixDropdownMenu.Trigger asChild={true}>
+          {label}
+        </RadixDropdownMenu.Trigger>
       )}
       <RadixDropdownMenu.Content asChild>
         <ul
-          className={`z-10 sm:absolute mt-1 shadow-lg bg-white ring-1 ring-primary ring-opacity-5 focus:outline-none menu p-0 rounded-box text-left`}
+          className={`z-10 sm:absolute mt-1 shadow-lg bg-white ring-1 ring-primary ring-opacity-5 focus:outline-none menu p-0 rounded-box ${
+            align === "left" ? "left-0 text-left" : "right-0"
+          }`}
         >
           {children}
         </ul>
