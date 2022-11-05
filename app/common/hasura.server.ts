@@ -31,7 +31,7 @@ interface UserPayload {
 export const signHasuraToken = (user: UserPayload) => {
   let claims: any = fillHasuraClaims(user);
   return jwt.sign(claims, getEnvVar("HASURA_JWT_SECRET"), {
-    expiresIn: "1",
+    expiresIn: "40 days",
   });
 };
 

@@ -1,9 +1,17 @@
-import type { AppUser } from "./auth.types";
+import { createUserGqlClient } from "~/common/hasura.server";
+import { GqlClient } from "~/toolkit/http/createGqlClient";
+import { AppUser } from "../users/users.types";
 import { authSession } from "./authSession.server";
 
 /** Require a user to be logged into hit your loader. Returns the auth session data. */
 export const requireAuthenticatedLoader = async (request: Request) => {
-  return authSession.require(request);
+  let sessionData = await authSession.require(request);
+  let gqlClient = createUserGqlClient(sessionData.hasuraToken);
+
+  return {
+    user: sessionData.user,
+    gqlClient,
+  };
 };
 
 export interface AuthenticatedAction {
@@ -15,10 +23,10 @@ export interface AuthenticatedAction {
   jsonData?: any;
   /** Looks for either a querystring params or FormData for a value. */
   returnTo?: string;
-  /** Pulls the access token out of session data */
-  access_token: string;
   /** Pulls the current user out of session data */
   user: AppUser;
+  /** A gqlClient for the current user's access token */
+  gqlClient: GqlClient;
 }
 
 /** Require a user to be logged into hit your action */
@@ -41,11 +49,14 @@ export const requireAuthenticatedAction = async (
     intent = formData.get("intent") + "";
   }
 
+  let gqlClient = createUserGqlClient(userSession.hasuraToken);
+
   return {
     intent,
     jsonData,
     formData,
     returnTo: returnTo as string,
-    ...userSession,
+    gqlClient,
+    user: userSession.user,
   };
 };

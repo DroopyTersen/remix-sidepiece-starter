@@ -1,6 +1,7 @@
 import { LoaderFunction } from "@remix-run/node";
 import { createAdminGqlClient, signHasuraToken } from "~/common/hasura.server";
-import { createUserSession } from "~/features/auth/auth.server";
+import { authSession } from "~/features/auth/authSession.server";
+// import { createUserSession } from "~/features/auth/auth.server.dotadda";
 import {
   fetchGithubAccessToken,
   fetchGithubProfile,
@@ -48,5 +49,5 @@ export const loader: LoaderFunction = async ({ request }) => {
   }
   let hasuraToken = await signHasuraToken(user);
 
-  return createUserSession(user, hasuraToken, returnTo);
+  return authSession.create({ user, hasuraToken }, returnTo);
 };

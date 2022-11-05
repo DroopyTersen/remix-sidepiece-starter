@@ -7,13 +7,13 @@ export const ErrorContainer = ({
   return (
     <div
       className={
-        "flex flex-col rounded items-center p-4 bg-red-50 border-red-100 border " + className
+        "flex flex-col rounded items-center p-4 bg-red-900 " + className
       }
     >
-      <div className="text-red-800">
+      <div className="text-red-300">
         <MdErrorOutline size={45} />
       </div>
-      {title && <h3 className="my-2 text-2xl text-gray-700">{title}</h3>}
+      {title && <h3 className="my-2 text-2xl text-red-200">{title}</h3>}
       {children}
     </div>
   );
