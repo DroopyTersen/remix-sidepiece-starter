@@ -2,6 +2,7 @@ import { ActionFunction, redirect } from "@remix-run/node";
 import { Form, useSearchParams } from "@remix-run/react";
 import React, { useEffect } from "react";
 import { getGitHubLoginUrl } from "~/features/auth/githubAuth.server";
+import { MainContentPadded } from "~/features/layout/AppLayout";
 import { getAuthRedirectUri } from "~/toolkit/http/url.utils";
 
 export const action: ActionFunction = async ({ request }) => {
@@ -19,7 +20,16 @@ export const action: ActionFunction = async ({ request }) => {
 };
 
 export default function () {
-  return <LoginButton />;
+  return (
+    <MainContentPadded>
+      <div className="p-8 text-center rounded-lg bg-gray-100/10">
+        <div className="mb-6 text-xl text-secondary">
+          Click below to login with Github
+        </div>
+        <LoginButton />
+      </div>
+    </MainContentPadded>
+  );
 }
 
 export function LoginButton() {
