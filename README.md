@@ -1,5 +1,7 @@
 # Welcome to Side Piece Starter
 
+The fastest way to get started with a Remix + Hasura project
+
 ```sh
 # When prompted, make sure to select `Y` to run the 'npm install`.
 npx create-remix@latest --template droopytersen/remix-sidepiece-starter
@@ -10,10 +12,8 @@ npx create-remix@latest --template droopytersen/remix-sidepiece-starter
 - Remix
 - React
 - Styling
-  - Tailwind
-  - Tailwind Forms
-  - Tailwind Typography
-  - DaisyUI
+  - Tailwind + DaisyUI
+  - Sass
 - Auth
   - Github authentication
   - Hasura authorization
@@ -23,6 +23,7 @@ npx create-remix@latest --template droopytersen/remix-sidepiece-starter
 - Utility libraries
   - dayjs
   - zod
+- Local development with docker
 
 ## Starter TODOs
 
@@ -39,6 +40,8 @@ npx create-remix@latest --template droopytersen/remix-sidepiece-starter
     - [x] DaisyUI
   - [x] Sass Setup for custom CSS
 - [x] Environment Variable Pattern
+  - [x] Pattern for `PUBLIC_` vars that go to client
+  - [x] Use `zod` to validate env variables
 - [x] Toolkit Code
   - [x] Remix Utils
     - `useRouteData`
@@ -53,14 +56,15 @@ npx create-remix@latest --template droopytersen/remix-sidepiece-starter
   - [x] Hasura Docker Compose
   - [x] Hasura folder basic migration
   - [x] Hasura GQL Client factories
-- [ ] Auth Setup
-  - [ ] Github OAuth Flow
-  - [ ] Document App Setup instructions
-  - [ ] Generate Hasura token
-- [ ] Form Example
-  - [ ] User Profile Form
-  - [ ] Validation error pattern (with Zod)
+- [x] Auth Setup
+  - [x] Github OAuth Flow
+  - [x] Document Github App Setup instructions
+  - [x] Generate Hasura token
+  - [x] Pattern for authorizing loaders/actions
+  - [x] Pattern for authorized GraphQL requests
+- [x] Form Example
+  - [x] User Profile Form
+  - [x] Validation error pattern (with Zod)
 - [ ] Ensure infrastructure
   - [ ] Hasura Dockerfile
   - [ ] Remix Dockerfile
-  - [ ] Railway deploy
