@@ -65,6 +65,6 @@ npx create-remix@latest --template droopytersen/remix-sidepiece-starter
 - [x] Form Example
   - [x] User Profile Form
   - [x] Validation error pattern (with Zod)
-- [ ] Ensure infrastructure
-  - [ ] Hasura Dockerfile
-  - [ ] Remix Dockerfile
+- [x] Ensure infrastructure
+  - [x] Hasura Dockerfile
+  - [x] Remix Dockerfile
