@@ -1,4 +1,5 @@
-import { AuthRedirectParams, fetchToken, OAuthConfig } from "~/toolkit/oauth";
+import { AuthRedirectParams, OAuthConfig } from "~/toolkit/oauth/oauth.types";
+import { fetchToken } from "~/toolkit/oauth/oauth.utils";
 import { getEnvVar } from "~/toolkit/remix/envVars.server";
 
 const githubOAuthConfig: OAuthConfig = {
@@ -9,7 +10,9 @@ const githubOAuthConfig: OAuthConfig = {
   client_secret: getEnvVar("GITHUB_CLIENT_SECRET"),
 };
 
-export const fetchGithubProfile = async function (token): Promise<GitHubUser> {
+export const fetchGithubProfile = async function (
+  token: string
+): Promise<GitHubUser> {
   let data = await fetch("https://api.github.com/user", {
     method: "GET",
     headers: {
@@ -17,7 +20,6 @@ export const fetchGithubProfile = async function (token): Promise<GitHubUser> {
       Authorization: "Bearer " + token,
     },
   }).then((resp) => resp.json());
-  console.log("GITHUB PROFILE", data);
   return data as GitHubUser;
 };
 
@@ -29,12 +31,12 @@ export function getGitHubLoginUrl(
 ) {
   let oauthParams: AuthRedirectParams = {
     client_id: githubOAuthConfig.client_id,
-    scope,
+    scope: scope + "",
     redirect_uri,
     response_type: "code",
     state: STATE,
   };
-  console.log("🚀 | oauthParams", oauthParams);
+  // console.log("🚀 | oauthParams", oauthParams);
   return {
     url: `${githubOAuthConfig.auth_uri}?${new URLSearchParams(
       oauthParams as any
@@ -65,7 +67,6 @@ export async function fetchGithubAccessToken(
     redirect_uri,
     scope: githubOAuthConfig.scope,
   };
-  console.log("🚀 | params", params);
   let tokenData = await fetchToken(TOKEN_ENDPOINT, params);
 
   return tokenData;

@@ -45,7 +45,6 @@ export default function MyProfileRoute() {
   let data = useLoaderData<typeof loader>();
   let actionData = useActionData();
   let error: ZodError = actionData?.error;
-  console.log("🚀 | MyProfileRoute | actionData", actionData);
   let [photo, setPhoto] = useState(
     data?.user?.photo || "https://via.placeholder.com/300"
   );

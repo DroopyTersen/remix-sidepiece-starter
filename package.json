@@ -16,8 +16,7 @@
     "generate:tailwind": "npx tailwindcss -o ./public/css/tailwind.css",
     "generate:gql": "graphql-codegen --config ./app/.gql/codegen.ts",
     "start": "remix-serve build",
-    "format": "prettier --write \"app/**/*.{js,jsx,ts,tsx}\"",
-    "hasura": "hasura console --project hasura"
+    "format": "prettier --write \"app/**/*.{js,jsx,ts,tsx}\""
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.0.2",

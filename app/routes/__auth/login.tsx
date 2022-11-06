@@ -12,10 +12,8 @@ export const action: ActionFunction = async ({ request }) => {
     returnTo = new URL(returnTo, new URL(request.url).origin).href;
   }
   const redirect_uri = getAuthRedirectUri(returnTo + "", "/api/auth-callback");
-  console.log("🚀 | constaction:ActionFunction= | redirect_uri", redirect_uri);
 
   let { url } = await getGitHubLoginUrl(redirect_uri);
-  console.log("🚀 | constaction:ActionFunction= | url", url);
   return redirect(url);
 };
 

@@ -26,7 +26,6 @@ export function useDebouncedUpdateEffect<T>(
 ) {
   let effectRef = useRef(effectFn);
   let updatedValue = useDebouncedValue(value, delay);
-  // console.log("🚀 | updatedValue", updatedValue);
   useEffect(() => {
     effectRef.current = effectFn;
   }, [effectFn]);
@@ -55,7 +54,7 @@ export function useDebouncedUpdateEffect<T>(
 //   return <input value={value} onChange={(e) => setValue(e.target.value)} />;
 // }
 
-export function useDebouncedValue(value, delay) {
+export function useDebouncedValue(value: any, delay: number) {
   // State and setters for debounced value
   const [debouncedValue, setDebouncedValue] = useState(value);
 
@@ -77,7 +76,7 @@ export function useDebouncedValue(value, delay) {
   return debouncedValue;
 }
 
-export function useDebouncedValues(values, delay) {
+export function useDebouncedValues(values: any[], delay: number) {
   // State and setters for debounced value
   const [debouncedValues, setDebouncedValues] = useState(values);
 

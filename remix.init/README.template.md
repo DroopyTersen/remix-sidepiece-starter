@@ -12,8 +12,9 @@ npm install -g hasura-cli
 
 ```
 docker compose up -d
-hasura migrate apply --project hasura --database-name default
-hasura metadata apply --project hasura
+sleep 3
+hasura migrate apply --database-name default
+hasura metadata apply
 ```
 
 ### Github Auth
@@ -49,7 +50,7 @@ npm run dev
 To start creating tables, open Hasura console with:
 
 ```
-yarn hasura
+hasura console
 ```
 
 ## Environment Variables

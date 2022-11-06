@@ -12,8 +12,7 @@ export default function Index() {
   let config = useEnvVars();
   return (
     <MainContentPadded>
-      <h1 className="text-secondary/90">{config?.PUBLIC_MESSAGE}</h1>
-      <p>You are on the {config.PUBLIC_ENV} environment</p>
+      <h1 className="text-secondary/90">{config.PUBLIC_ENV} environment</h1>
       <ul>
         <li>
           <a

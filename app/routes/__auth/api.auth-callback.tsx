@@ -25,15 +25,12 @@ export const loader: LoaderFunction = async ({ request }) => {
     throw new Error(`${error} - ${error_description}`);
   }
   const redirect_uri = getAuthRedirectUri(returnTo + "", "/api/auth-callback");
-  console.log("🚀 | constloader:LoaderFunction= | redirect_uri", redirect_uri);
-
   if (!code || !state) {
     throw new Error("Missing code and status query params");
   }
-  console.log("🚀 | constloader:LoaderFunction= | code", code);
+
   let adminClient = createAdminGqlClient();
   let githubTokenResult = await fetchGithubAccessToken(code, redirect_uri);
-  // console.log("🚀 | consthandler:Handler= | tokenResult", tokenResult);
   if (!githubTokenResult) {
     throw new Error("Unble to get access token");
   }
