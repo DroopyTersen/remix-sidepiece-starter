@@ -9,8 +9,8 @@ export const getEnvVar = (key: keyof EnvVars, fallback = "") => {
 };
 
 export const PrivateEnvVarSchema = z.object({
-  GRAPHQL_ENDPOINT: z.string().startsWith("http").endsWith("/graphql"),
-  HASURA_ADMIN_SECRET: z.string().min(1),
+  HASURA_GRAPHQL_ENDPOINT: z.string().startsWith("http"),
+  HASURA_GRAPHQL_ADMIN_SECRET: z.string().min(1),
   HASURA_JWT_SECRET: z.string().min(32),
   SESSION_SECRET: z.string().optional(),
   GITHUB_CLIENT_ID: z.string().min(1),

@@ -3,7 +3,7 @@ import { AppUser } from "~/features/users/users.types";
 import { createGraphQLClient } from "~/toolkit/http/createGqlClient";
 import { getEnvVar } from "~/toolkit/remix/envVars.server";
 
-const ENDPOINT = getEnvVar("GRAPHQL_ENDPOINT");
+const ENDPOINT = getEnvVar("HASURA_GRAPHQL_ENDPOINT") + "/v1/graphql";
 
 export const createAnonymousGqlClient = () => {
   return createGraphQLClient(ENDPOINT);
@@ -12,7 +12,7 @@ export const createAnonymousGqlClient = () => {
 export const createAdminGqlClient = () => {
   return createGraphQLClient(ENDPOINT, {
     staticHeaders: {
-      "x-hasura-admin-secret": getEnvVar("HASURA_ADMIN_SECRET"),
+      "x-hasura-admin-secret": getEnvVar("HASURA_GRAPHQL_ADMIN_SECRET"),
     },
   });
 };

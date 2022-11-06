@@ -12,7 +12,6 @@ export const useEnvVar = (key: keyof PublicEnvVars, fallback = ""): string => {
 
 export const PublicEnvVarSchema = z.object({
   PUBLIC_ENV: z.string(),
-  PUBLIC_MESSAGE: z.string(),
 });
 
 export type PublicEnvVars = z.infer<typeof PublicEnvVarSchema>;

@@ -1,10 +1,12 @@
-require("dotenv").config();
+require('dotenv').config()
 
+const endpoint = process.env.HASURA_GRAPHQL_ENDPOINT + "/v1/graphql"
+console.log("🚀 | endpoint", endpoint)
 module.exports = {
   schema: [{
-    [process.env.GRAPHQL_ENDPOINT]: {
+    [endpoint]: {
       headers: {
-        "x-hasura-admin-secret": process.env.HASURA_ADMIN_SECRET
+        "x-hasura-admin-secret": process.env.HASURA_GRAPHQL_ADMIN_SECRET
       }
     }
   }],
