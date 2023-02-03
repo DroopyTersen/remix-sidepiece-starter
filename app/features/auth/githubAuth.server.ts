@@ -6,8 +6,8 @@ const githubOAuthConfig: OAuthConfig = {
   auth_uri: "https://github.com/login/oauth/authorize",
   token_uri: "https://github.com/login/oauth/access_token",
   scope: "gist user:email",
-  client_id: getEnvVar("GITHUB_CLIENT_ID"),
-  client_secret: getEnvVar("GITHUB_CLIENT_SECRET"),
+  client_id: getEnvVar("AUTH_CLIENT_ID"),
+  client_secret: getEnvVar("AUTH_CLIENT_SECRET"),
 };
 
 export const fetchGithubProfile = async function (
