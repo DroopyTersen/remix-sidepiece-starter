@@ -11,6 +11,17 @@ query GetUsersByUsername($username: String) {
   }
 }
 
+query GetUserOrgAndTeamMemberships($userId: uuid!) {
+  user: usersByPk(id: $userId) {
+    teamMemberships {
+      teamId
+    }
+    orgMemberships {
+      orgId
+    }
+  }
+}
+
 query GetUserById($id: uuid!) {
   user: usersByPk(id: $id) {
     ...UserFields

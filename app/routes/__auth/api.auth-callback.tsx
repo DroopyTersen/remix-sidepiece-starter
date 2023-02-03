@@ -1,14 +1,11 @@
 import { LoaderFunction } from "@remix-run/node";
 import { createAdminGqlClient, signHasuraToken } from "~/common/hasura.server";
+import { fetchAccessToken, fetchProfile } from "~/features/auth/auth0.server";
 import { authSession } from "~/features/auth/authSession.server";
-// import { createUserSession } from "~/features/auth/auth.server.dotadda";
-import {
-  fetchGithubAccessToken,
-  fetchGithubProfile,
-} from "~/features/auth/githubAuth.server";
+
 import {
   getUserByUsername,
-  insertUser,
+  insertUserAndEnsureOrgAndTeam,
 } from "~/features/users/users.data.server";
 import { AppUser } from "~/features/users/users.types";
 import { getAuthRedirectUri } from "~/toolkit/http/url.utils";
@@ -30,30 +27,31 @@ export const loader: LoaderFunction = async ({ request }) => {
   }
 
   let adminClient = createAdminGqlClient();
-  let githubTokenResult = await fetchGithubAccessToken(code, redirect_uri);
+  let githubTokenResult = await fetchAccessToken(code, redirect_uri);
   if (!githubTokenResult) {
     throw new Error("Unble to get access token");
   }
 
-  let githubProfile = await fetchGithubProfile(githubTokenResult.access_token);
-  if (!githubProfile?.login) {
-    throw new Error("Unable to get github login (username)");
+  let profile = await fetchProfile(githubTokenResult.access_token);
+  console.log("🚀 | profile", profile);
+  if (!profile?.email) {
+    throw new Error("Unable to get logged in user email");
   }
+
   let user: AppUser | undefined | null = await getUserByUsername(
     adminClient,
-    githubProfile?.login
+    profile?.email
   );
   if (!user) {
-    user = await insertUser(adminClient, {
-      name: githubProfile.name,
-      username: githubProfile.login,
-      photo: githubProfile.avatar_url,
+    user = await insertUserAndEnsureOrgAndTeam(adminClient, {
+      name: profile.name,
+      username: profile?.email,
+      photo: profile.picture,
     });
   }
   if (!user) {
     throw Error("Unable find existing user or create a new user");
   }
   let hasuraToken = signHasuraToken(user);
-
   return authSession.create({ userId: user.id, hasuraToken }, returnTo);
 };

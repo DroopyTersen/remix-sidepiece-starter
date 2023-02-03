@@ -1,6 +1,8 @@
 import z from "zod";
 import {
+  CreateOrgAndTeamDocument,
   GetUserByIdDocument,
+  GetUserOrgAndTeamMembershipsDocument,
   GetUsersByUsernameDocument,
   InsertUserDocument,
   UpdateUserDocument,
@@ -22,7 +24,8 @@ export const getUserById = async (gqlClient: GqlClient, id: string) => {
   return data?.user;
 };
 
-export const insertUser = async (
+/** Creates a User,Team, and Org if necessary */
+export const insertUserAndEnsureOrgAndTeam = async (
   gqlClient: GqlClient,
   { name, username, photo }: UsersInsertInput
 ) => {
@@ -31,6 +34,33 @@ export const insertUser = async (
     username,
     photo,
   });
+  let user = data?.user;
+
+  if (!user?.id) throw new Error("Unable to create new user");
+
+  let memberships = await gqlClient.request(
+    GetUserOrgAndTeamMembershipsDocument,
+    { userId: user.id }
+  );
+  let hasOrg = memberships?.user?.orgMemberships
+    ? memberships?.user?.orgMemberships?.length > 0
+    : false;
+
+  let teamName = "Personal Team";
+  if (name) {
+    teamName =
+      name.split(" ").length > 1
+        ? `Team ${name.split(" ")[0]}`
+        : `Team ${name}}`;
+  }
+  if (!hasOrg) {
+    await gqlClient.request(CreateOrgAndTeamDocument, {
+      orgName: `Personal Org`,
+      teamName,
+      userId: user.id,
+    });
+  }
+
   return data?.user;
 };
 

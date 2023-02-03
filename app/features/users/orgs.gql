@@ -1,0 +1,32 @@
+mutation CreateOrgAndTeam(
+  $orgName: String!
+  $userId: uuid!
+  $teamName: String!
+) {
+  insertOrgsOne(
+    object: {
+      name: $orgName
+      users: {
+        data: { userId: $userId, role: "owner" }
+        onConflict: { constraint: org_users_pkey, update_columns: [role] }
+      }
+      teams: {
+        data: {
+          name: $teamName
+          members: {
+            data: { userId: $userId, role: "owner" }
+            onConflict: {
+              constraint: team_members_pkey
+              update_columns: [role]
+            }
+          }
+        }
+        onConflict: { constraint: teams_pkey, update_columns: [name] }
+      }
+    }
+    onConflict: { constraint: orgs_pkey, update_columns: [name] }
+  ) {
+    id
+    name
+  }
+}

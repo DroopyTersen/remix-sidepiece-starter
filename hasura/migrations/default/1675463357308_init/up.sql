@@ -70,6 +70,7 @@ ALTER TABLE ONLY public.users
 ALTER TABLE ONLY public.users
     ADD CONSTRAINT users_pkey PRIMARY KEY (id);
 CREATE TRIGGER orgs_insert_id BEFORE INSERT ON public.orgs FOR EACH ROW EXECUTE FUNCTION public.generate_short_id();
+CREATE TRIGGER teams_insert_id BEFORE INSERT ON public.teams FOR EACH ROW EXECUTE FUNCTION public.generate_short_id();
 CREATE TRIGGER set_public_org_users_updated_at BEFORE UPDATE ON public.org_users FOR EACH ROW EXECUTE FUNCTION public.set_current_timestamp_updated_at();
 COMMENT ON TRIGGER set_public_org_users_updated_at ON public.org_users IS 'trigger to set value of column "updated_at" to current timestamp on row update';
 CREATE TRIGGER set_public_orgs_updated_at BEFORE UPDATE ON public.orgs FOR EACH ROW EXECUTE FUNCTION public.set_current_timestamp_updated_at();

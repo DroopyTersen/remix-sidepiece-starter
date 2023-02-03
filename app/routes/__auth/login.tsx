@@ -1,7 +1,7 @@
 import { ActionFunction, redirect } from "@remix-run/node";
 import { Form, useSearchParams } from "@remix-run/react";
 import React, { useEffect } from "react";
-import { getGitHubLoginUrl } from "~/features/auth/githubAuth.server";
+import { getLoginUrl } from "~/features/auth/auth0.server";
 import { MainContentPadded } from "~/features/layout/AppLayout";
 import { getAuthRedirectUri } from "~/toolkit/http/url.utils";
 
@@ -13,7 +13,7 @@ export const action: ActionFunction = async ({ request }) => {
   }
   const redirect_uri = getAuthRedirectUri(returnTo + "", "/api/auth-callback");
 
-  let { url } = await getGitHubLoginUrl(redirect_uri);
+  let { url } = await getLoginUrl(redirect_uri);
   return redirect(url);
 };
 
