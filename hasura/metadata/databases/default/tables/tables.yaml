@@ -1,1 +1,5 @@
+- "!include public_org_users.yaml"
+- "!include public_orgs.yaml"
+- "!include public_team_users.yaml"
+- "!include public_teams.yaml"
 - "!include public_users.yaml"

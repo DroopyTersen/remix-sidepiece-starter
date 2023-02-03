@@ -1,56 +1,53 @@
 table:
-  name: users
+  name: orgs
   schema: public
 array_relationships:
-  - name: orgMemberships
+  - name: teams
     using:
       foreign_key_constraint_on:
-        column: user_id
+        column: org_id
+        table:
+          name: teams
+          schema: public
+  - name: users
+    using:
+      foreign_key_constraint_on:
+        column: org_id
         table:
           name: org_users
           schema: public
-  - name: teamMemberships
-    using:
-      foreign_key_constraint_on:
-        column: user_id
-        table:
-          name: team_users
-          schema: public
 select_permissions:
-  - role: anonymous
-    permission:
-      columns:
-        - created_at
-        - id
-        - name
-        - photo
-        - updated_at
-        - username
-      filter: {}
   - role: user
     permission:
       columns:
         - created_at
         - id
         - name
-        - photo
         - updated_at
-        - username
-      filter: {}
+      filter:
+        users:
+          user_id:
+            _eq: X-Hasura-User-Id
 update_permissions:
   - role: user
     permission:
       columns:
-        - username
         - name
-        - photo
       filter:
-        id:
-          _eq: X-Hasura-User-Id
+        users:
+          _and:
+            - user_id:
+                _eq: X-Hasura-User-Id
+            - role:
+                _eq: owner
       check: null
 delete_permissions:
   - role: user
     permission:
       filter:
-        id:
-          _eq: X-Hasura-User-Id
+        users:
+          _and:
+            - user_id:
+                _eq: X-Hasura-User-Id
+            - role:
+                _eq: owner
