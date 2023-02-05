@@ -1,6 +1,4 @@
 
-DROP TABLE "public"."traces";
-DROP TABLE "public"."requests";
 alter table "public"."workspace_roles" drop constraint "workspace_roles_author_id_fkey";
 alter table "public"."workspace_roles" alter column "updated_at" drop not null;
 alter table "public"."workspace_roles" alter column "created_at" drop not null;

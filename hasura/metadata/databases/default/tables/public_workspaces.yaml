@@ -2,26 +2,12 @@ table:
   name: workspaces
   schema: public
 array_relationships:
-  - name: requests
-    using:
-      foreign_key_constraint_on:
-        column: workspace_id
-        table:
-          name: requests
-          schema: public
   - name: roles
     using:
       foreign_key_constraint_on:
         column: workspace_id
         table:
           name: workspace_roles
-          schema: public
-  - name: transformers
-    using:
-      foreign_key_constraint_on:
-        column: workspace_id
-        table:
-          name: transformers
           schema: public
 select_permissions:
   - role: user
