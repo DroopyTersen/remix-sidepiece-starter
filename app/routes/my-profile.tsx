@@ -21,26 +21,6 @@ export const loader = async ({ request, params }: LoaderArgs) => {
   return json({ user });
 };
 
-export const action = async ({ request, params }: ActionArgs) => {
-  let { formData, gqlClient, userId } = await requireAuthenticatedAction(
-    request
-  );
-  try {
-    await updateUserProfile(gqlClient, userId, formData);
-
-    return redirect("/my-profile");
-  } catch (err: unknown) {
-    if (err instanceof ZodError) {
-      console.log("ZODE ERROR", err);
-      return json({ error: err }, { status: 400 });
-    }
-    return json(
-      { error: err, formValues: Object.fromEntries(formData) },
-      { status: 500 }
-    );
-  }
-};
-
 export default function MyProfileRoute() {
   let data = useLoaderData<typeof loader>();
   let actionData = useActionData();
@@ -73,10 +53,10 @@ export default function MyProfileRoute() {
             required
           />
           <InputField
-            label="Username"
-            name="username"
+            label="Email"
+            name="email"
             disabled
-            defaultValue={data?.user?.username}
+            defaultValue={data?.user?.email || ""}
           />
           <div className="flex gap-2">
             <TextAreaField
@@ -101,6 +81,26 @@ export default function MyProfileRoute() {
     </MainContentPadded>
   );
 }
+
+export const action = async ({ request, params }: ActionArgs) => {
+  let { formData, gqlClient, userId } = await requireAuthenticatedAction(
+    request
+  );
+  try {
+    await updateUserProfile(gqlClient, userId, formData);
+
+    return redirect("/my-profile");
+  } catch (err: unknown) {
+    if (err instanceof ZodError) {
+      console.log("ZOD ERROR", err);
+      return json({ error: err }, { status: 400 });
+    }
+    return json(
+      { error: err, formValues: Object.fromEntries(formData) },
+      { status: 500 }
+    );
+  }
+};
 
 export const ErrorBoundary = AppErrorBoundary;
 export const CatchBoundary = AppErrorBoundary;

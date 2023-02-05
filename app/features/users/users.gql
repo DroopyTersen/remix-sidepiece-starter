@@ -26,6 +26,13 @@ query GetUserRoles($userId: uuid!) {
 query GetUserById($id: uuid!) {
   user: usersByPk(id: $id) {
     ...UserFields
+    roles(orderBy: { workspace: { name: ASC } }) {
+      role
+      workspace {
+        id
+        name
+      }
+    }
   }
 }
 

@@ -21,6 +21,18 @@ export const getUserById = async (gqlClient: GqlClient, id: string) => {
   return data?.user;
 };
 
+export const createNewWorkspace = async (
+  gqlClient: GqlClient,
+  userId: string,
+  workspaceName: string
+) => {
+  let data = await gqlClient.request(CreateWorkspaceDocument, {
+    name: workspaceName,
+    userId,
+  });
+  return data?.workspace;
+};
+
 /** Creates a User,Team, and Org if necessary */
 export const insertUserAndEnsureWorkspace = async (
   gqlClient: GqlClient,

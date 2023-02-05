@@ -1,5 +1,5 @@
 mutation CreateWorkspace($name: String!, $userId: uuid!) {
-  insertWorkspacesOne(
+  workspace: insertWorkspacesOne(
     object: {
       name: $name
       roles: {

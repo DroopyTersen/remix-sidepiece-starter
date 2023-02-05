@@ -4,6 +4,7 @@ import { Dropdown } from "~/toolkit/components/dropdown/Dropdown";
 import { useEnvVar } from "~/toolkit/remix/useEnvVar";
 import { useCurrentUser } from "../auth/useCurrentUser";
 import { AccountDropodown } from "./AccountDropodown";
+import { WorkspacePicker } from "./WorkspacePicker";
 
 interface AppLayoutProps {
   children: React.ReactNode;
@@ -45,6 +46,9 @@ export function AppLayout({ children }: AppLayoutProps) {
               </li>
             </Dropdown.MenuContent>
           </Dropdown>
+          <div>
+            <WorkspacePicker />
+          </div>
         </div>
         <div className="relative navbar-center">
           {environment && environment !== "PROD" && (

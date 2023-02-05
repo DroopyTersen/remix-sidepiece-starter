@@ -2,11 +2,11 @@ import { FaUserCircle } from "react-icons/fa";
 
 interface Props {
   className?: string;
-  photo?: string;
-  name?: string;
+  photo?: string | null;
+  name?: string | null;
 }
 
-export function AvatarImage({ className = "", photo, name }: Props) {
+export function AvatarImage({ className = "", photo = "", name = "" }: Props) {
   if (!photo) {
     return (
       <FaUserCircle
@@ -16,10 +16,11 @@ export function AvatarImage({ className = "", photo, name }: Props) {
   }
   return (
     <img
-      title={name}
+      title={name || ""}
       className={`relative inline-block h-10 w-10 rounded-full ring-2 ring-gray-300`}
       src={photo}
-      alt={name}
+      alt={name || "Avatar"}
+      referrerPolicy="no-referrer"
     />
   );
 }
