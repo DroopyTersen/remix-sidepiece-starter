@@ -9,13 +9,6 @@ array_relationships:
         table:
           name: workspace_roles
           schema: public
-  - name: traces
-    using:
-      foreign_key_constraint_on:
-        column: author_id
-        table:
-          name: traces
-          schema: public
 select_permissions:
   - role: user
     permission:
