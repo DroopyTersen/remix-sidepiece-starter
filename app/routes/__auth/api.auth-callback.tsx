@@ -4,8 +4,8 @@ import { fetchAccessToken, fetchProfile } from "~/features/auth/auth0.server";
 import { authSession } from "~/features/auth/authSession.server";
 
 import {
-  getUserByUsername,
-  insertUserAndEnsureOrgAndTeam,
+  getUserByEmail,
+  insertUserAndEnsureWorkspace,
 } from "~/features/users/users.data.server";
 import { AppUser } from "~/features/users/users.types";
 import { getAuthRedirectUri } from "~/toolkit/http/url.utils";
@@ -38,14 +38,14 @@ export const loader: LoaderFunction = async ({ request }) => {
     throw new Error("Unable to get logged in user email");
   }
 
-  let user: AppUser | undefined | null = await getUserByUsername(
+  let user: AppUser | undefined | null = await getUserByEmail(
     adminClient,
-    profile?.email
+    profile.email
   );
   if (!user) {
-    user = await insertUserAndEnsureOrgAndTeam(adminClient, {
+    user = await insertUserAndEnsureWorkspace(adminClient, {
       name: profile.name,
-      username: profile?.email,
+      email: profile.email,
       photo: profile.picture,
     });
   }

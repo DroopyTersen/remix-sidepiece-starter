@@ -24,7 +24,7 @@ export function AvatarImage({ className = "", photo, name }: Props) {
   );
 }
 
-export function AvatarFull({ photo = "", title, subtitle }) {
+export function AvatarFull({ photo = "", title = "", subtitle = "" }) {
   return (
     <div className="flex items-center">
       <div>
