@@ -2,55 +2,26 @@ table:
   name: users
   schema: public
 array_relationships:
-  - name: orgMemberships
+  - name: roles
     using:
       foreign_key_constraint_on:
         column: user_id
         table:
-          name: org_users
+          name: workspace_roles
           schema: public
-  - name: teamMemberships
+  - name: traces
     using:
       foreign_key_constraint_on:
-        column: user_id
+        column: author_id
         table:
-          name: team_users
+          name: traces
           schema: public
 select_permissions:
-  - role: anonymous
+  - role: user
     permission:
       columns:
-        - created_at
+        - email
         - id
         - name
         - photo
-        - updated_at
-        - username
       filter: {}
-  - role: user
-    permission:
-      columns:
-        - created_at
-        - id
-        - name
-        - photo
-        - updated_at
-        - username
-      filter: {}
-update_permissions:
-  - role: user
-    permission:
-      columns:
-        - username
-        - name
-        - photo
-      filter:
-        id:
-          _eq: X-Hasura-User-Id
-      check: null
-delete_permissions:
-  - role: user
-    permission:
-      filter:
-        id:
-          _eq: X-Hasura-User-Id

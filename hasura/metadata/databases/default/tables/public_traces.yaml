@@ -1,0 +1,53 @@
+table:
+  name: traces
+  schema: public
+object_relationships:
+  - name: author
+    using:
+      foreign_key_constraint_on: author_id
+  - name: request
+    using:
+      foreign_key_constraint_on: request_id
+insert_permissions:
+  - role: user
+    permission:
+      check:
+        request:
+          workspace:
+            roles:
+              user_id:
+                _eq: X-Hasura-User-Id
+      set:
+        author_id: x-hasura-User-Id
+      columns:
+        - req
+        - request_id
+        - resp
+        - schema
+        - timestamp
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - id
+        - request_id
+        - timestamp
+        - author_id
+        - req
+        - resp
+        - schema
+      filter:
+        request:
+          workspace:
+            roles:
+              user_id:
+                _eq: X-Hasura-User-Id
+delete_permissions:
+  - role: user
+    permission:
+      filter:
+        request:
+          workspace:
+            roles:
+              user_id:
+                _eq: X-Hasura-User-Id

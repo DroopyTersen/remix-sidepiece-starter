@@ -1,0 +1,78 @@
+table:
+  name: transformers
+  schema: public
+object_relationships:
+  - name: author
+    using:
+      foreign_key_constraint_on: author_id
+  - name: workspace
+    using:
+      foreign_key_constraint_on: workspace_id
+array_relationships:
+  - name: requests
+    using:
+      foreign_key_constraint_on:
+        column: transformer_id
+        table:
+          name: requests
+          schema: public
+insert_permissions:
+  - role: user
+    permission:
+      check:
+        workspace:
+          roles:
+            user_id:
+              _eq: X-Hasura-User-Id
+      set:
+        author_id: x-hasura-User-Id
+      columns:
+        - code
+        - description
+        - title
+        - workspace_id
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - code
+        - description
+        - title
+        - workspace_id
+        - created_at
+        - updated_at
+        - author_id
+        - id
+      filter:
+        workspace:
+          roles:
+            user_id:
+              _eq: X-Hasura-User-Id
+update_permissions:
+  - role: user
+    permission:
+      columns:
+        - code
+        - description
+        - title
+        - workspace_id
+      filter:
+        workspace:
+          roles:
+            user_id:
+              _eq: X-Hasura-User-Id
+      check:
+        workspace:
+          roles:
+            user_id:
+              _eq: X-Hasura-User-Id
+      set:
+        author_id: x-hasura-User-Id
+delete_permissions:
+  - role: user
+    permission:
+      filter:
+        workspace:
+          roles:
+            user_id:
+              _eq: X-Hasura-User-Id

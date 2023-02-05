@@ -1,0 +1,104 @@
+table:
+  name: requests
+  schema: public
+object_relationships:
+  - name: author
+    using:
+      foreign_key_constraint_on: author_id
+  - name: transformer
+    using:
+      foreign_key_constraint_on: transformer_id
+  - name: workspace
+    using:
+      foreign_key_constraint_on: workspace_id
+array_relationships:
+  - name: traces
+    using:
+      foreign_key_constraint_on:
+        column: request_id
+        table:
+          name: traces
+          schema: public
+insert_permissions:
+  - role: user
+    permission:
+      check:
+        workspace:
+          roles:
+            user_id:
+              _eq: X-Hasura-User-Id
+      set:
+        author_id: x-hasura-User-Id
+      columns:
+        - body
+        - body_lang
+        - headers
+        - headers_lang
+        - method
+        - schema
+        - title
+        - url
+        - workspace_id
+        - created_at
+        - updated_at
+        - author_id
+        - id
+        - transformer_id
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - body
+        - body_lang
+        - headers
+        - headers_lang
+        - method
+        - schema
+        - title
+        - url
+        - workspace_id
+        - created_at
+        - updated_at
+        - author_id
+        - id
+        - transformer_id
+      filter:
+        workspace:
+          roles:
+            user_id:
+              _eq: X-Hasura-User-Id
+      allow_aggregations: true
+update_permissions:
+  - role: user
+    permission:
+      columns:
+        - body
+        - body_lang
+        - headers
+        - headers_lang
+        - method
+        - schema
+        - title
+        - url
+        - workspace_id
+        - created_at
+        - updated_at
+        - author_id
+        - id
+        - transformer_id
+      filter:
+        workspace:
+          roles:
+            user_id:
+              _eq: X-Hasura-User-Id
+      check: null
+      set:
+        author_id: x-hasura-User-Id
+delete_permissions:
+  - role: user
+    permission:
+      filter:
+        workspace:
+          roles:
+            user_id:
+              _eq: X-Hasura-User-Id
