@@ -21,7 +21,7 @@ export const ErrorContainer = ({
 
 export interface ErrorContainerProps {
   /** The primary error message to display */
-  title: string;
+  title?: string;
   /** Additional error details */
   children?: React.ReactNode;
   /** The icon name */
