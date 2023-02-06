@@ -44,7 +44,7 @@ export default function MyProfileRoute() {
           <h1 className="m-0 text-secondary">{data?.user?.name}</h1>
         </div>
       </div>
-      <Form method="post" className="max-w-sm mt-4">
+      <Form method="post" className="max-w-sm p-4 mt-4 rounded-lg bg-base-200">
         <fieldset className="space-y-4">
           <InputField
             label="Name"

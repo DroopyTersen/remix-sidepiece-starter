@@ -11,9 +11,9 @@ export type InputProps = React.HTMLProps<HTMLInputElement> & {
   className?: string;
 };
 
-export const getInputClasses = (className) =>
+export const getInputClasses = (className = "") =>
   [
-    "input w-full input-accent text-white border-none bg-base-200/80 disabled:text-white/60",
+    "input w-full focus:input-accent input-bordered text-white bg-transparent disabled:text-white/70 disabled:bg-white/10",
     className,
   ]
     .filter(Boolean)

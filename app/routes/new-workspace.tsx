@@ -40,7 +40,10 @@ export default function NewWorkspace() {
   return (
     <MainContentPadded>
       <h1 className="text-secondary">New Workspace</h1>
-      <Form method="post" className="max-w-sm mt-4">
+      <Form
+        method="post"
+        className="max-w-sm p-4 mt-4 rounded-lg shadow bg-base-200"
+      >
         {formErrors?.length > 0 && (
           <ErrorContainer>
             <ul>
@@ -52,7 +55,7 @@ export default function NewWorkspace() {
         )}
         <fieldset className="space-y-4">
           <InputField
-            label="Name"
+            label="Workspace Name"
             name="name"
             autoFocus
             required

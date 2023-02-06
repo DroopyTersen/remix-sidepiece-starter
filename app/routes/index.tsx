@@ -39,7 +39,7 @@ export default function Index() {
         </li>
       </ul>
       <div>
-        <form className="max-w-xs">
+        <form className="max-w-xs p-4 rounded-lg bg-base-200">
           <fieldset className="flex flex-col gap-4">
             <InputField label="First Name" name="firstName" required />
             <InputField label="Last Name" name="lastName" required />
