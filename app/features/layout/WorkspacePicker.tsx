@@ -35,12 +35,16 @@ export const WorkspacePicker = () => {
         navigate("/" + targetPage);
       }}
     >
-      <option disabled selected value="">
-        -- Select a workspace --
-      </option>
+      {!workspaceId && (
+        <option disabled selected value="">
+          -- Select a workspace --
+        </option>
+      )}
       <optgroup label="Your workspaces">
         {workspaces.map((workspace) => (
-          <option value={workspace.value}>{workspace.label}</option>
+          <option key={workspace.value} value={workspace.value}>
+            {workspace.label}
+          </option>
         ))}
       </optgroup>
       <optgroup label="More">
@@ -48,4 +52,18 @@ export const WorkspacePicker = () => {
       </optgroup>
     </Select>
   );
+};
+
+export const useCurrentWorkspace = () => {
+  let currentUser = useCurrentUser();
+  let { workspaceId } = useParams();
+  let currentWorkspace = useMemo(() => {
+    return currentUser?.roles?.find(
+      (role) => role.workspace.id === workspaceId
+    );
+  }, [currentUser?.roles, workspaceId]);
+  return {
+    role: currentWorkspace?.role,
+    ...currentWorkspace?.workspace,
+  };
 };
