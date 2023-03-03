@@ -7,16 +7,15 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  ShouldReloadFunction,
+  ShouldRevalidateFunction,
 } from "@remix-run/react";
 
 import globalStyles from "../public/css/global.css";
-import tailwindStyles from "../public/css/tailwind.css";
 import { createUserGqlClient } from "./common/hasura.server";
 import { authSession } from "./features/auth/authSession.server";
 import { AppLayout } from "./features/layout/AppLayout";
 import { getUserById } from "./features/users/users.data.server";
-import { AppUser } from "./features/users/users.types";
+import tailwindStyles from "./styles/tailwind.css";
 import { getPublicEnvVars } from "./toolkit/remix/envVars.server";
 
 export const links: LinksFunction = () => [
@@ -32,7 +31,7 @@ export const meta: MetaFunction = () => ({
 
 export const loader = async ({ request }: LoaderArgs) => {
   let userSession = await authSession.get(request);
-  let user: AppUser | undefined | null;
+  let user;
   if (userSession?.userId && userSession?.hasuraToken) {
     user = await getUserById(
       createUserGqlClient(userSession.hasuraToken),
@@ -63,6 +62,10 @@ export default function App() {
     </html>
   );
 }
-
-export const unstable_shouldReload: ShouldReloadFunction = ({ submission }) =>
-  !!submission;
+export const shouldRevalidate: ShouldRevalidateFunction = ({
+  formData,
+  formMethod,
+}) => {
+  let hasSubmission = !!formData && formMethod !== "get";
+  return hasSubmission;
+};

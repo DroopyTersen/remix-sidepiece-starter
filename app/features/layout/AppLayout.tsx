@@ -4,6 +4,7 @@ import { Dropdown } from "~/toolkit/components/dropdown/Dropdown";
 import { useEnvVar } from "~/toolkit/remix/useEnvVar";
 import { useCurrentUser } from "../auth/useCurrentUser";
 import { AccountDropodown } from "./AccountDropodown";
+import { WorkspacePicker } from "./WorkspacePicker";
 
 interface AppLayoutProps {
   children: React.ReactNode;
@@ -16,7 +17,7 @@ export function AppLayout({ children }: AppLayoutProps) {
     <>
       <header className="w-full px-2 navbar bg-base-200">
         <div className="navbar-start">
-          <Dropdown align="left">
+          <Dropdown align="left" className="min-w-fit">
             <Dropdown.CircleTrigger>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -34,6 +35,9 @@ export function AppLayout({ children }: AppLayoutProps) {
               </svg>
             </Dropdown.CircleTrigger>
             <Dropdown.MenuContent>
+              <div className="md:hidden min-w-[200px]">
+                <WorkspacePicker />
+              </div>
               <li>
                 <a href="/">Homepage</a>
               </li>
@@ -45,6 +49,9 @@ export function AppLayout({ children }: AppLayoutProps) {
               </li>
             </Dropdown.MenuContent>
           </Dropdown>
+          <div className="hidden md:block">
+            <WorkspacePicker />
+          </div>
         </div>
         <div className="relative navbar-center">
           {environment && environment !== "PROD" && (

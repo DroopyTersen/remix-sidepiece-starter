@@ -6,11 +6,11 @@ const githubOAuthConfig: OAuthConfig = {
   auth_uri: "https://github.com/login/oauth/authorize",
   token_uri: "https://github.com/login/oauth/access_token",
   scope: "gist user:email",
-  client_id: getEnvVar("AUTH_CLIENT_ID"),
-  client_secret: getEnvVar("AUTH_CLIENT_SECRET"),
+  client_id: getEnvVar("OAUTH_CLIENT_ID"),
+  client_secret: getEnvVar("OAUTH_CLIENT_SECRET"),
 };
 
-export const fetchGithubProfile = async function (
+export const fetchProfile = async function (
   token: string
 ): Promise<GitHubUser> {
   let data = await fetch("https://api.github.com/user", {
@@ -25,7 +25,7 @@ export const fetchGithubProfile = async function (
 
 const STATE = "IshouldbeusingthisbutI'mnot";
 
-export function getGitHubLoginUrl(
+export function getLoginUrl(
   redirect_uri: string,
   scope = githubOAuthConfig.scope
 ) {
@@ -55,10 +55,7 @@ export interface OAuthAccessTokenParams {
 
 const TOKEN_ENDPOINT = "https://github.com/login/oauth/access_token";
 
-export async function fetchGithubAccessToken(
-  code: string,
-  redirect_uri: string
-) {
+export async function fetchAccessToken(code: string, redirect_uri: string) {
   let params = {
     code,
     state: STATE,

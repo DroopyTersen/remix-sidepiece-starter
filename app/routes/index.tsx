@@ -1,4 +1,5 @@
 import { Link } from "@remix-run/react";
+import { useState } from "react";
 import { MainContentPadded } from "~/features/layout/AppLayout";
 import {
   InputField,
@@ -10,36 +11,20 @@ import { useEnvVars } from "~/toolkit/remix/useEnvVar";
 
 export default function Index() {
   let config = useEnvVars();
+  const [count, setCount] = useState(0);
   return (
     <MainContentPadded>
-      <h1 className="text-secondary/90">{config.PUBLIC_ENV} environment</h1>
-      <ul>
-        <li>
-          <a
-            target="_blank"
-            href="https://remix.run/tutorials/blog"
-            rel="noreferrer"
-          >
-            15m Quickstart Blog Tutorial
-          </a>
-        </li>
-        <li>
-          <a
-            target="_blank"
-            href="https://remix.run/tutorials/jokes"
-            rel="noreferrer"
-          >
-            Deep Dive Jokes App Tutorial
-          </a>
-        </li>
-        <li>
-          <a target="_blank" href="https://remix.run/docs" rel="noreferrer">
-            Remix Docs
-          </a>
-        </li>
-      </ul>
+      <h1 className="text-secondary/90">{config.PUBLIC_ENV} environment!</h1>
       <div>
-        <form className="max-w-xs">
+        <button
+          onClick={() => setCount((c) => c + 1)}
+          className="btn btn-primary"
+        >
+          Count = {count}
+        </button>
+      </div>
+      <div>
+        <form className="max-w-xs p-4 rounded-lg bg-base-200">
           <fieldset className="flex flex-col gap-4">
             <InputField label="First Name" name="firstName" required />
             <InputField label="Last Name" name="lastName" required />

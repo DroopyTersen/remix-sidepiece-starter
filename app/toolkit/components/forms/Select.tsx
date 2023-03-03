@@ -17,9 +17,9 @@ export type SelectProps = React.HTMLProps<HTMLSelectElement> & {
 };
 
 // mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md
-let getSelectClasses = (className) =>
+let getSelectClasses = (className = "") =>
   [
-    "select select-accent text-white border-none bg-base-200/80 w-full",
+    "select focus:select-accent select-bordered text-white bg-transparent w-full",
     className,
   ]
     .filter(Boolean)

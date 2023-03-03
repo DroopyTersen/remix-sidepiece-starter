@@ -1,19 +1,38 @@
 fragment UserFields on Users {
   id
   name
-  username
+  email
   photo
 }
 
-query GetUsersByUsername($username: String) {
-  users(limit: 1, where: { username: { _ilike: $username } }) {
+query GetUsersByEmail($email: String) {
+  users(limit: 1, where: { email: { _ilike: $email } }) {
     ...UserFields
+  }
+}
+
+query GetUserRoles($userId: uuid!) {
+  user: usersByPk(id: $userId) {
+    roles {
+      role
+      workspace {
+        id
+        name
+      }
+    }
   }
 }
 
 query GetUserById($id: uuid!) {
   user: usersByPk(id: $id) {
     ...UserFields
+    roles(orderBy: { workspace: { name: ASC } }) {
+      role
+      workspace {
+        id
+        name
+      }
+    }
   }
 }
 
@@ -27,10 +46,8 @@ mutation UpdateUser($id: uuid!, $updates: UsersSetInput) {
     ...UserFields
   }
 }
-mutation InsertUser($username: String, $name: String, $photo: String) {
-  user: insertUsersOne(
-    object: { username: $username, name: $name, photo: $photo }
-  ) {
+mutation InsertUser($email: String, $name: String, $photo: String) {
+  user: insertUsersOne(object: { email: $email, name: $name, photo: $photo }) {
     ...UserFields
   }
 }
