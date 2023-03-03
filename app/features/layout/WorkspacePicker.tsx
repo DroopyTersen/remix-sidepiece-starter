@@ -36,7 +36,7 @@ export const WorkspacePicker = () => {
       }}
     >
       {!workspaceId && (
-        <option disabled selected value="">
+        <option disabled value="">
           -- Select a workspace --
         </option>
       )}

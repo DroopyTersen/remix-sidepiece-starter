@@ -11,11 +11,11 @@ import {
 } from "@remix-run/react";
 
 import globalStyles from "../public/css/global.css";
-import tailwindStyles from "../public/css/tailwind.css";
 import { createUserGqlClient } from "./common/hasura.server";
 import { authSession } from "./features/auth/authSession.server";
 import { AppLayout } from "./features/layout/AppLayout";
 import { getUserById } from "./features/users/users.data.server";
+import tailwindStyles from "./styles/tailwind.css";
 import { getPublicEnvVars } from "./toolkit/remix/envVars.server";
 
 export const links: LinksFunction = () => [
